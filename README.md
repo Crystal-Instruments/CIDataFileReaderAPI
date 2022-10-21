@@ -114,6 +114,6 @@ There are .pdfs that provide in-depth explanation and the .chm file that provide
 
 # License & Term Agreement
 
-The link below is our Crystal Instruments' End License Agreement usage for our software:
+Linked below is the Crystal Instruments' End License Agreement for usage:
 
 [Crystal Instruments End License Agreement](https://github.com/Crystal-Instruments/CIDataFileReaderAPI/blob/main/Crystal%20Instruments%20License.md)
