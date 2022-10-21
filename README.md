@@ -27,13 +27,29 @@ It is also possible to read any of the signals, time or frequency, in other engi
 
 When the ATFX API read the ATFX file, there may be some differences in the signal frame data, this is due to some display related parameters such as spectrum type not being saved into the ATFX file. By default, the spectrum type is EUrms2. Engineering units are saved into the ATFX file and should be the the default EU when reading the signal frame.
 
-For more detailed information regarding the CI ATFX Reader API, please refer the CI ATFX Reader API Documentation that can be downloaded via the CI site:
+# Documentation
+
+For more detailed information regarding the CI ATFX Reader API, please refer the CI ATFX Reader API Documentation that can be downloaded in this github repository and visit our website Programming Corner for helpful articles:
+
+https://github.com/Crystal-Instruments/CIDataFileReaderAPI/tree/main/Manual
 
 https://www.crystalinstruments.com/basics-of-test-and-measurement 
 
 https://www.crystalinstruments.com/programming-corner 
 
 # CI ATFX Reader API Package Content
+
+## Downloading and Installing
+
+You can clone this repository or download the zip file via the green button.
+
+```
+git clone https://github.com/Crystal-Instruments/CIDataFileReaderAPI.git
+```
+
+It is recommended to use Matlab version **R2021b** or later. And a compatible version of Python for the Python.NET package, such as **3.8** or **2.7**.
+
+The Python scripts also import **Matplotlib** and **Numpy**.
 
 ## API DLL Files
 
@@ -51,9 +67,50 @@ C# is the main coding language and demo for the CI ATFX Reader API, while the ot
 
 For Python, it uses a package called Python.Net to import the CI ATFX Reader API DLL files.
 
+```python
+#---Pythonnet clr import
+import clr
+# Change file path here to whereever the DLL files are
+parentPath = "C:\\MyStuff\\DevelopmentalVer\\bin\\AnyCPU\\Debug\\Utility\\CIATFXReader\\"
+
+clr.AddReference(parentPath + "CI.ATFX.Reader.dll")
+clr.AddReference(parentPath + "Common.dll")
+clr.AddReference('System.Linq')
+clr.AddReference('System.Collections')
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+#---C# .NET imports & dll imports
+from EDM.Recording import *
+from EDM.RecordingInterface import *
+from ASAM.ODS.NVH import *
+from EDM.Utils import *
+from Common import *
+from Common import _SpectrumScalingType
+from Common.Spider import *
+from System import *
+from System.Diagnostics import *
+from System.Reflection import *
+from System.Text import *
+from System.IO import *
+```
+
 For Matlab, it uses the in built method that Matlab provides to import the CI ATFX Reader API DLL files.
 
-For LabVIEW, it imports the CI ATFX Reader API methods directly while using another DLL file to assist LabVIEW in comprehending C# objects and methods.
+```matlab
+% Load common and reader dll
+NET.addAssembly('C:\MyStuff\DevelopmentalVer\bin\AnyCPU\Debug\Utility\CIATFXReader\Common.dll');
+NET.addAssembly('C:\MyStuff\DevelopmentalVer\bin\AnyCPU\Debug\Utility\CIATFXReader\CI.ATFX.Reader.dll');
+```
+
+For LabVIEW, it imports the CI ATFX Reader API methods directly while using another DLL file to assist LabVIEW in comprehending C# objects and methods. Please use the DLL files locate in [$CI ATFX Reader API/LabVIEW ATFX API/Private](https://github.com/Crystal-Instruments/CIDataFileReaderAPI/tree/main/LabVIEW%20ATFX%20API/Private) for the LabVIEW demo and integration to work properly.
+
+## Manuals
+
+Included with the demo code and API DLL files are technical manuals that can help users in understanding the various methods and objects in the CI ATFX Reader API.
+
+There are .pdfs that provide in-depth explanation and the .chm file that provide a quick reference library.
 
 # License & Term Agreement
 
