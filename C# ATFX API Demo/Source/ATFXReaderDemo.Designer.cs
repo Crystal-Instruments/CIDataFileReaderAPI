@@ -38,8 +38,6 @@ namespace ATFXReader
             this.tpRecInfo = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvRecInfo = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbRecordingDataInfo = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnShowRecordProp = new System.Windows.Forms.Button();
@@ -54,42 +52,47 @@ namespace ATFXReader
             this.btnSignalParam = new System.Windows.Forms.Button();
             this.btnShowGeneratedTime = new System.Windows.Forms.Button();
             this.btnExportCSV2 = new System.Windows.Forms.Button();
+            this.btnShowtsdatUTC = new System.Windows.Forms.Button();
             this.lbSignalDataInfo = new System.Windows.Forms.ListBox();
             this.dgvSignalDataInfo = new System.Windows.Forms.DataGridView();
-            this.clmSignalProp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmSignalPropValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmHighAbort = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmHighAlarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmLowAlarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmLowAbort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbSignalParameters = new System.Windows.Forms.ListBox();
             this.flpSignalChanges = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.cbSpecScaleType = new System.Windows.Forms.ComboBox();
             this.cbEngiUnit = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbSignalFrameIndex = new System.Windows.Forms.TextBox();
             this.tpChannelInfo = new System.Windows.Forms.TabPage();
             this.dgvChannel = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmHiPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tpMergeInfo = new System.Windows.Forms.TabPage();
             this.dgvMergeInfo = new System.Windows.Forms.DataGridView();
-            this.clmSourceFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmSourceLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmCurrFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmCurrLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tpTSDATInfo = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.dgvCalculateTSDATInfo = new System.Windows.Forms.DataGridView();
+            this.dgvReadTSDATInfo = new System.Windows.Forms.DataGridView();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.tbTSDATFrameIndex = new System.Windows.Forms.TextBox();
+            this.btnReadTSDAT = new System.Windows.Forms.Button();
+            this.cbUseRecording = new System.Windows.Forms.CheckBox();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tbTSDATInput = new System.Windows.Forms.TextBox();
+            this.btnCalculateTSDAT = new System.Windows.Forms.Button();
+            this.cbUTCFormatTSDAT = new System.Windows.Forms.CheckBox();
+            this.lbSegmentLost = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.btnGenTSDATFile = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
+            this.btnGenSatStat = new System.Windows.Forms.Button();
+            this.btnGenTSTSDATCompare = new System.Windows.Forms.Button();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -112,6 +115,37 @@ namespace ATFXReader
             this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn26 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn27 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmSignalProp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmSignalPropValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmHighAbort = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmHighAlarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmLowAlarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmLowAbort = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmSourceFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmSourceLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmCurrFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmCurrLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmCalTSDATIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmCalTSDATRead = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmReadTSDATIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmReadTSDATData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmHiPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1.SuspendLayout();
             this.tpRecInfo.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -126,7 +160,15 @@ namespace ATFXReader
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannel)).BeginInit();
             this.tpMergeInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMergeInfo)).BeginInit();
+            this.tpTSDATInfo.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCalculateTSDATInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReadTSDATInfo)).BeginInit();
+            this.flowLayoutPanel3.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOpen
@@ -158,6 +200,7 @@ namespace ATFXReader
             this.tabControl1.Controls.Add(this.tpSignalDataInfo);
             this.tabControl1.Controls.Add(this.tpChannelInfo);
             this.tabControl1.Controls.Add(this.tpMergeInfo);
+            this.tabControl1.Controls.Add(this.tpTSDATInfo);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(3, 59);
             this.tabControl1.Name = "tabControl1";
@@ -207,25 +250,10 @@ namespace ATFXReader
             this.dgvRecInfo.Location = new System.Drawing.Point(184, 3);
             this.dgvRecInfo.Name = "dgvRecInfo";
             this.dgvRecInfo.RowHeadersVisible = false;
+            this.dgvRecInfo.RowHeadersWidth = 62;
             this.dgvRecInfo.RowTemplate.Height = 23;
             this.dgvRecInfo.Size = new System.Drawing.Size(864, 523);
             this.dgvRecInfo.TabIndex = 1;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Property";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 180;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 180;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Value";
-            this.dataGridViewTextBoxColumn2.MinimumWidth = 180;
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 180;
             // 
             // lbRecordingDataInfo
             // 
@@ -257,7 +285,7 @@ namespace ATFXReader
             this.btnShowRecordProp.AutoSize = true;
             this.btnShowRecordProp.Location = new System.Drawing.Point(13, 8);
             this.btnShowRecordProp.Name = "btnShowRecordProp";
-            this.btnShowRecordProp.Size = new System.Drawing.Size(151, 25);
+            this.btnShowRecordProp.Size = new System.Drawing.Size(163, 25);
             this.btnShowRecordProp.TabIndex = 0;
             this.btnShowRecordProp.Text = "Show Recording Property";
             this.btnShowRecordProp.UseVisualStyleBackColor = true;
@@ -266,9 +294,9 @@ namespace ATFXReader
             // btnShowDateTimeNanoUTC
             // 
             this.btnShowDateTimeNanoUTC.AutoSize = true;
-            this.btnShowDateTimeNanoUTC.Location = new System.Drawing.Point(170, 8);
+            this.btnShowDateTimeNanoUTC.Location = new System.Drawing.Point(182, 8);
             this.btnShowDateTimeNanoUTC.Name = "btnShowDateTimeNanoUTC";
-            this.btnShowDateTimeNanoUTC.Size = new System.Drawing.Size(199, 25);
+            this.btnShowDateTimeNanoUTC.Size = new System.Drawing.Size(207, 25);
             this.btnShowDateTimeNanoUTC.TabIndex = 1;
             this.btnShowDateTimeNanoUTC.Text = "Extract DateTimeNano Data in UTC";
             this.btnShowDateTimeNanoUTC.UseVisualStyleBackColor = true;
@@ -277,9 +305,9 @@ namespace ATFXReader
             // btnShowDateTimeNanoLocal
             // 
             this.btnShowDateTimeNanoLocal.AutoSize = true;
-            this.btnShowDateTimeNanoLocal.Location = new System.Drawing.Point(375, 8);
+            this.btnShowDateTimeNanoLocal.Location = new System.Drawing.Point(395, 8);
             this.btnShowDateTimeNanoLocal.Name = "btnShowDateTimeNanoLocal";
-            this.btnShowDateTimeNanoLocal.Size = new System.Drawing.Size(206, 25);
+            this.btnShowDateTimeNanoLocal.Size = new System.Drawing.Size(212, 25);
             this.btnShowDateTimeNanoLocal.TabIndex = 2;
             this.btnShowDateTimeNanoLocal.Text = "Extract DateTimeNano Data in Local";
             this.btnShowDateTimeNanoLocal.UseVisualStyleBackColor = true;
@@ -315,7 +343,7 @@ namespace ATFXReader
             this.tlpSignalDataInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSignalDataInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSignalDataInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpSignalDataInfo.Size = new System.Drawing.Size(1051, 609);
+            this.tlpSignalDataInfo.Size = new System.Drawing.Size(1051, 611);
             this.tlpSignalDataInfo.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -327,6 +355,7 @@ namespace ATFXReader
             this.flowLayoutPanel1.Controls.Add(this.btnSignalParam);
             this.flowLayoutPanel1.Controls.Add(this.btnShowGeneratedTime);
             this.flowLayoutPanel1.Controls.Add(this.btnExportCSV2);
+            this.flowLayoutPanel1.Controls.Add(this.btnShowtsdatUTC);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(313, 540);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
@@ -397,6 +426,16 @@ namespace ATFXReader
             this.btnExportCSV2.UseVisualStyleBackColor = true;
             this.btnExportCSV2.Click += new System.EventHandler(this.BtnExportCSV_Click);
             // 
+            // btnShowtsdatUTC
+            // 
+            this.btnShowtsdatUTC.Location = new System.Drawing.Point(244, 37);
+            this.btnShowtsdatUTC.Name = "btnShowtsdatUTC";
+            this.btnShowtsdatUTC.Size = new System.Drawing.Size(188, 23);
+            this.btnShowtsdatUTC.TabIndex = 5;
+            this.btnShowtsdatUTC.Text = "Show TSDAT Frame Data in UTC";
+            this.btnShowtsdatUTC.UseVisualStyleBackColor = true;
+            this.btnShowtsdatUTC.Click += new System.EventHandler(this.btnShowtsdatUTC_Click);
+            // 
             // lbSignalDataInfo
             // 
             this.lbSignalDataInfo.Dock = System.Windows.Forms.DockStyle.Left;
@@ -426,40 +465,9 @@ namespace ATFXReader
             this.dgvSignalDataInfo.Location = new System.Drawing.Point(315, 3);
             this.dgvSignalDataInfo.Name = "dgvSignalDataInfo";
             this.dgvSignalDataInfo.RowHeadersVisible = false;
+            this.dgvSignalDataInfo.RowHeadersWidth = 62;
             this.dgvSignalDataInfo.Size = new System.Drawing.Size(733, 481);
             this.dgvSignalDataInfo.TabIndex = 1;
-            // 
-            // clmSignalProp
-            // 
-            this.clmSignalProp.HeaderText = "Property";
-            this.clmSignalProp.Name = "clmSignalProp";
-            this.clmSignalProp.Width = 150;
-            // 
-            // clmSignalPropValue
-            // 
-            this.clmSignalPropValue.HeaderText = "Value";
-            this.clmSignalPropValue.Name = "clmSignalPropValue";
-            this.clmSignalPropValue.Width = 150;
-            // 
-            // clmHighAbort
-            // 
-            this.clmHighAbort.HeaderText = "High Abort";
-            this.clmHighAbort.Name = "clmHighAbort";
-            // 
-            // clmHighAlarm
-            // 
-            this.clmHighAlarm.HeaderText = "High Alarm";
-            this.clmHighAlarm.Name = "clmHighAlarm";
-            // 
-            // clmLowAlarm
-            // 
-            this.clmLowAlarm.HeaderText = "Low Alarm";
-            this.clmLowAlarm.Name = "clmLowAlarm";
-            // 
-            // clmLowAbort
-            // 
-            this.clmLowAbort.HeaderText = "Low Alarm";
-            this.clmLowAbort.Name = "clmLowAbort";
             // 
             // lbSignalParameters
             // 
@@ -480,6 +488,8 @@ namespace ATFXReader
             this.flpSignalChanges.Controls.Add(this.label1);
             this.flpSignalChanges.Controls.Add(this.cbSpecScaleType);
             this.flpSignalChanges.Controls.Add(this.cbEngiUnit);
+            this.flpSignalChanges.Controls.Add(this.label2);
+            this.flpSignalChanges.Controls.Add(this.tbSignalFrameIndex);
             this.flpSignalChanges.Dock = System.Windows.Forms.DockStyle.Top;
             this.flpSignalChanges.Location = new System.Drawing.Point(313, 488);
             this.flpSignalChanges.Margin = new System.Windows.Forms.Padding(1);
@@ -518,6 +528,25 @@ namespace ATFXReader
             this.cbEngiUnit.TabIndex = 3;
             this.cbEngiUnit.SelectedIndexChanged += new System.EventHandler(this.cbEngiUnit_SelectedIndexChanged);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(553, 5);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label2.Size = new System.Drawing.Size(72, 20);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Frame Index";
+            // 
+            // tbSignalFrameIndex
+            // 
+            this.tbSignalFrameIndex.Location = new System.Drawing.Point(631, 8);
+            this.tbSignalFrameIndex.Name = "tbSignalFrameIndex";
+            this.tbSignalFrameIndex.Size = new System.Drawing.Size(77, 23);
+            this.tbSignalFrameIndex.TabIndex = 11;
+            this.tbSignalFrameIndex.Text = "0";
+            this.tbSignalFrameIndex.TextChanged += new System.EventHandler(this.cbEngiUnit_SelectedIndexChanged);
+            // 
             // tpChannelInfo
             // 
             this.tpChannelInfo.Controls.Add(this.dgvChannel);
@@ -553,80 +582,10 @@ namespace ATFXReader
             this.dgvChannel.Location = new System.Drawing.Point(3, 3);
             this.dgvChannel.Name = "dgvChannel";
             this.dgvChannel.RowHeadersVisible = false;
+            this.dgvChannel.RowHeadersWidth = 62;
             this.dgvChannel.RowTemplate.Height = 23;
             this.dgvChannel.Size = new System.Drawing.Size(1051, 609);
             this.dgvChannel.TabIndex = 1;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Location ID";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Channel Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Measurement Quantity";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Engineering Unit";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Sensitivity";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Input Mode";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Input Range";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Sensor SN";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Max. sensor range";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Intergration";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            // 
-            // clmWeight
-            // 
-            this.clmWeight.HeaderText = "Control Weighting";
-            this.clmWeight.Name = "clmWeight";
-            this.clmWeight.ReadOnly = true;
-            // 
-            // clmHiPass
-            // 
-            this.clmHiPass.HeaderText = "Hi-Pass Filter";
-            this.clmHiPass.Name = "clmHiPass";
             // 
             // tpMergeInfo
             // 
@@ -655,32 +614,246 @@ namespace ATFXReader
             this.dgvMergeInfo.Name = "dgvMergeInfo";
             this.dgvMergeInfo.ReadOnly = true;
             this.dgvMergeInfo.RowHeadersVisible = false;
-            this.dgvMergeInfo.Size = new System.Drawing.Size(1051, 609);
+            this.dgvMergeInfo.RowHeadersWidth = 62;
+            this.dgvMergeInfo.Size = new System.Drawing.Size(1051, 611);
             this.dgvMergeInfo.TabIndex = 0;
             // 
-            // clmSourceFile
+            // tpTSDATInfo
             // 
-            this.clmSourceFile.HeaderText = "Source File";
-            this.clmSourceFile.Name = "clmSourceFile";
-            this.clmSourceFile.ReadOnly = true;
+            this.tpTSDATInfo.Controls.Add(this.tableLayoutPanel3);
+            this.tpTSDATInfo.Location = new System.Drawing.Point(4, 24);
+            this.tpTSDATInfo.Name = "tpTSDATInfo";
+            this.tpTSDATInfo.Size = new System.Drawing.Size(1057, 615);
+            this.tpTSDATInfo.TabIndex = 8;
+            this.tpTSDATInfo.Text = "Time Stamp Data";
+            this.tpTSDATInfo.UseVisualStyleBackColor = true;
+            this.tpTSDATInfo.Enter += new System.EventHandler(this.tpTSDATInfo_Enter);
             // 
-            // clmSourceLabel
+            // tableLayoutPanel3
             // 
-            this.clmSourceLabel.HeaderText = "Channel Label";
-            this.clmSourceLabel.Name = "clmSourceLabel";
-            this.clmSourceLabel.ReadOnly = true;
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
+            this.tableLayoutPanel3.Controls.Add(this.textBox2, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.dgvCalculateTSDATInfo, 2, 1);
+            this.tableLayoutPanel3.Controls.Add(this.dgvReadTSDATInfo, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel3, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel4, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.textBox1, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel5, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel6, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 5;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.90099F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.70297F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.67327F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.72277F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1057, 615);
+            this.tableLayoutPanel3.TabIndex = 0;
             // 
-            // clmCurrFile
+            // textBox2
             // 
-            this.clmCurrFile.HeaderText = "Current File";
-            this.clmCurrFile.Name = "clmCurrFile";
-            this.clmCurrFile.ReadOnly = true;
+            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox2.Location = new System.Drawing.Point(657, 3);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(397, 23);
+            this.textBox2.TabIndex = 5;
+            this.textBox2.Text = "Calculating TSDAT File";
             // 
-            // clmCurrLabel
+            // dgvCalculateTSDATInfo
             // 
-            this.clmCurrLabel.HeaderText = "Channel Label";
-            this.clmCurrLabel.Name = "clmCurrLabel";
-            this.clmCurrLabel.ReadOnly = true;
+            this.dgvCalculateTSDATInfo.AllowUserToAddRows = false;
+            this.dgvCalculateTSDATInfo.AllowUserToDeleteRows = false;
+            this.dgvCalculateTSDATInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCalculateTSDATInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmCalTSDATIndex,
+            this.clmCalTSDATRead});
+            this.dgvCalculateTSDATInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCalculateTSDATInfo.Location = new System.Drawing.Point(657, 32);
+            this.dgvCalculateTSDATInfo.Name = "dgvCalculateTSDATInfo";
+            this.dgvCalculateTSDATInfo.ReadOnly = true;
+            this.dgvCalculateTSDATInfo.RowHeadersVisible = false;
+            this.dgvCalculateTSDATInfo.RowHeadersWidth = 62;
+            this.tableLayoutPanel3.SetRowSpan(this.dgvCalculateTSDATInfo, 4);
+            this.dgvCalculateTSDATInfo.Size = new System.Drawing.Size(397, 580);
+            this.dgvCalculateTSDATInfo.TabIndex = 3;
+            // 
+            // dgvReadTSDATInfo
+            // 
+            this.dgvReadTSDATInfo.AllowUserToAddRows = false;
+            this.dgvReadTSDATInfo.AllowUserToDeleteRows = false;
+            this.dgvReadTSDATInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvReadTSDATInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmReadTSDATIndex,
+            this.clmReadTSDATData});
+            this.dgvReadTSDATInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvReadTSDATInfo.Location = new System.Drawing.Point(256, 32);
+            this.dgvReadTSDATInfo.Name = "dgvReadTSDATInfo";
+            this.dgvReadTSDATInfo.ReadOnly = true;
+            this.dgvReadTSDATInfo.RowHeadersVisible = false;
+            this.dgvReadTSDATInfo.RowHeadersWidth = 62;
+            this.tableLayoutPanel3.SetRowSpan(this.dgvReadTSDATInfo, 4);
+            this.dgvReadTSDATInfo.Size = new System.Drawing.Size(395, 580);
+            this.dgvReadTSDATInfo.TabIndex = 0;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.textBox5);
+            this.flowLayoutPanel3.Controls.Add(this.tbTSDATFrameIndex);
+            this.flowLayoutPanel3.Controls.Add(this.btnReadTSDAT);
+            this.flowLayoutPanel3.Controls.Add(this.cbUseRecording);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 90);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Padding = new System.Windows.Forms.Padding(5);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(247, 168);
+            this.flowLayoutPanel3.TabIndex = 1;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(8, 8);
+            this.textBox5.Multiline = true;
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(229, 40);
+            this.textBox5.TabIndex = 9;
+            this.textBox5.Text = "Read directly from the .tsdat file\r\nExample: startIndex,endIndex";
+            // 
+            // tbTSDATFrameIndex
+            // 
+            this.tbTSDATFrameIndex.Location = new System.Drawing.Point(8, 54);
+            this.tbTSDATFrameIndex.Name = "tbTSDATFrameIndex";
+            this.tbTSDATFrameIndex.Size = new System.Drawing.Size(219, 23);
+            this.tbTSDATFrameIndex.TabIndex = 10;
+            // 
+            // btnReadTSDAT
+            // 
+            this.btnReadTSDAT.Location = new System.Drawing.Point(8, 83);
+            this.btnReadTSDAT.Name = "btnReadTSDAT";
+            this.btnReadTSDAT.Size = new System.Drawing.Size(110, 23);
+            this.btnReadTSDAT.TabIndex = 3;
+            this.btnReadTSDAT.Text = "Read TSDAT File";
+            this.btnReadTSDAT.UseVisualStyleBackColor = true;
+            this.btnReadTSDAT.Click += new System.EventHandler(this.btnReadTSDAT_Click);
+            // 
+            // cbUseRecording
+            // 
+            this.cbUseRecording.AutoSize = true;
+            this.cbUseRecording.Location = new System.Drawing.Point(8, 112);
+            this.cbUseRecording.Name = "cbUseRecording";
+            this.cbUseRecording.Size = new System.Drawing.Size(102, 19);
+            this.cbUseRecording.TabIndex = 5;
+            this.cbUseRecording.Text = "Use Recording";
+            this.cbUseRecording.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.textBox4);
+            this.flowLayoutPanel4.Controls.Add(this.tbTSDATInput);
+            this.flowLayoutPanel4.Controls.Add(this.btnCalculateTSDAT);
+            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 264);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Padding = new System.Windows.Forms.Padding(5);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(247, 185);
+            this.flowLayoutPanel4.TabIndex = 2;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(8, 8);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(229, 57);
+            this.textBox4.TabIndex = 8;
+            this.textBox4.Text = "Efficiently get .tsdat data at specified points\r\nExample: startIndex,endIndex";
+            // 
+            // tbTSDATInput
+            // 
+            this.tbTSDATInput.Location = new System.Drawing.Point(8, 71);
+            this.tbTSDATInput.Name = "tbTSDATInput";
+            this.tbTSDATInput.Size = new System.Drawing.Size(219, 23);
+            this.tbTSDATInput.TabIndex = 0;
+            // 
+            // btnCalculateTSDAT
+            // 
+            this.btnCalculateTSDAT.Location = new System.Drawing.Point(8, 100);
+            this.btnCalculateTSDAT.Name = "btnCalculateTSDAT";
+            this.btnCalculateTSDAT.Size = new System.Drawing.Size(166, 23);
+            this.btnCalculateTSDAT.TabIndex = 1;
+            this.btnCalculateTSDAT.Text = "Get TSDAT data at points:";
+            this.btnCalculateTSDAT.UseVisualStyleBackColor = true;
+            this.btnCalculateTSDAT.Click += new System.EventHandler(this.btnCalculateTSDAT_Click);
+            // 
+            // cbUTCFormatTSDAT
+            // 
+            this.cbUTCFormatTSDAT.AutoSize = true;
+            this.cbUTCFormatTSDAT.Location = new System.Drawing.Point(8, 28);
+            this.cbUTCFormatTSDAT.Name = "cbUTCFormatTSDAT";
+            this.cbUTCFormatTSDAT.Size = new System.Drawing.Size(110, 19);
+            this.cbUTCFormatTSDAT.TabIndex = 7;
+            this.cbUTCFormatTSDAT.Text = "Use UTC Format";
+            this.cbUTCFormatTSDAT.UseVisualStyleBackColor = true;
+            // 
+            // lbSegmentLost
+            // 
+            this.lbSegmentLost.AutoSize = true;
+            this.lbSegmentLost.Location = new System.Drawing.Point(8, 5);
+            this.lbSegmentLost.Name = "lbSegmentLost";
+            this.lbSegmentLost.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.lbSegmentLost.Size = new System.Drawing.Size(154, 20);
+            this.lbSegmentLost.TabIndex = 9;
+            this.lbSegmentLost.Text = "Time Stamp Segment Lost:  ";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(256, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(395, 23);
+            this.textBox1.TabIndex = 4;
+            this.textBox1.Text = "Reading TSDAT File";
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.Controls.Add(this.textBox3);
+            this.flowLayoutPanel5.Controls.Add(this.btnGenTSDATFile);
+            this.flowLayoutPanel5.Controls.Add(this.btnGenSatStat);
+            this.flowLayoutPanel5.Controls.Add(this.btnGenTSTSDATCompare);
+            this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 455);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Padding = new System.Windows.Forms.Padding(5);
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(247, 157);
+            this.flowLayoutPanel5.TabIndex = 6;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(8, 8);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(229, 41);
+            this.textBox3.TabIndex = 5;
+            this.textBox3.Text = "May take several minutes depending on recording size";
+            // 
+            // btnGenTSDATFile
+            // 
+            this.btnGenTSDATFile.Location = new System.Drawing.Point(8, 55);
+            this.btnGenTSDATFile.Name = "btnGenTSDATFile";
+            this.btnGenTSDATFile.Size = new System.Drawing.Size(136, 27);
+            this.btnGenTSDATFile.TabIndex = 2;
+            this.btnGenTSDATFile.Text = "Generate TSDAT File";
+            this.btnGenTSDATFile.UseVisualStyleBackColor = true;
+            this.btnGenTSDATFile.Click += new System.EventHandler(this.btnGenTSDATFile_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -729,132 +902,443 @@ namespace ATFXReader
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
+            // btnGenSatStat
+            // 
+            this.btnGenSatStat.Location = new System.Drawing.Point(8, 88);
+            this.btnGenSatStat.Name = "btnGenSatStat";
+            this.btnGenSatStat.Size = new System.Drawing.Size(175, 27);
+            this.btnGenSatStat.TabIndex = 6;
+            this.btnGenSatStat.Text = "Generate Satellite Status File";
+            this.btnGenSatStat.UseVisualStyleBackColor = true;
+            this.btnGenSatStat.Click += new System.EventHandler(this.btnGenSatStat_Click);
+            // 
+            // btnGenTSTSDATCompare
+            // 
+            this.btnGenTSTSDATCompare.Location = new System.Drawing.Point(8, 121);
+            this.btnGenTSTSDATCompare.Name = "btnGenTSTSDATCompare";
+            this.btnGenTSTSDATCompare.Size = new System.Drawing.Size(219, 27);
+            this.btnGenTSTSDATCompare.TabIndex = 7;
+            this.btnGenTSTSDATCompare.Text = "Generate TS and TSDAT Compare File";
+            this.btnGenTSTSDATCompare.UseVisualStyleBackColor = true;
+            this.btnGenTSTSDATCompare.Click += new System.EventHandler(this.btnGenTSTSDATCompare_Click);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Property";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 180;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 180;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Value";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 180;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 180;
+            // 
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.HeaderText = "Property";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.Width = 150;
             // 
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.HeaderText = "Value";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.Width = 150;
             // 
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.HeaderText = "High Abort";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Width = 150;
             // 
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.HeaderText = "High Alarm";
+            this.dataGridViewTextBoxColumn6.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.Width = 150;
             // 
             // dataGridViewTextBoxColumn7
             // 
             this.dataGridViewTextBoxColumn7.HeaderText = "Low Alarm";
+            this.dataGridViewTextBoxColumn7.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.Width = 150;
             // 
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.HeaderText = "Low Alarm";
+            this.dataGridViewTextBoxColumn8.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.Width = 150;
             // 
             // dataGridViewTextBoxColumn9
             // 
             this.dataGridViewTextBoxColumn9.HeaderText = "Location ID";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.dataGridViewTextBoxColumn9.Width = 150;
             // 
             // dataGridViewTextBoxColumn10
             // 
             this.dataGridViewTextBoxColumn10.HeaderText = "Channel Type";
+            this.dataGridViewTextBoxColumn10.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            this.dataGridViewTextBoxColumn10.Width = 150;
             // 
             // dataGridViewTextBoxColumn11
             // 
             this.dataGridViewTextBoxColumn11.HeaderText = "Measurement Quantity";
+            this.dataGridViewTextBoxColumn11.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.ReadOnly = true;
+            this.dataGridViewTextBoxColumn11.Width = 150;
             // 
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.HeaderText = "Engineering Unit";
+            this.dataGridViewTextBoxColumn12.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
             this.dataGridViewTextBoxColumn12.ReadOnly = true;
+            this.dataGridViewTextBoxColumn12.Width = 150;
             // 
             // dataGridViewTextBoxColumn13
             // 
             this.dataGridViewTextBoxColumn13.HeaderText = "Sensitivity";
+            this.dataGridViewTextBoxColumn13.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.ReadOnly = true;
+            this.dataGridViewTextBoxColumn13.Width = 150;
             // 
             // dataGridViewTextBoxColumn14
             // 
             this.dataGridViewTextBoxColumn14.HeaderText = "Input Mode";
+            this.dataGridViewTextBoxColumn14.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
             this.dataGridViewTextBoxColumn14.ReadOnly = true;
+            this.dataGridViewTextBoxColumn14.Width = 150;
             // 
             // dataGridViewTextBoxColumn15
             // 
             this.dataGridViewTextBoxColumn15.HeaderText = "Input Range";
+            this.dataGridViewTextBoxColumn15.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
             this.dataGridViewTextBoxColumn15.ReadOnly = true;
+            this.dataGridViewTextBoxColumn15.Width = 150;
             // 
             // dataGridViewTextBoxColumn16
             // 
             this.dataGridViewTextBoxColumn16.HeaderText = "Sensor SN";
+            this.dataGridViewTextBoxColumn16.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             this.dataGridViewTextBoxColumn16.ReadOnly = true;
+            this.dataGridViewTextBoxColumn16.Width = 150;
             // 
             // dataGridViewTextBoxColumn17
             // 
             this.dataGridViewTextBoxColumn17.HeaderText = "Max. sensor range";
+            this.dataGridViewTextBoxColumn17.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
             this.dataGridViewTextBoxColumn17.ReadOnly = true;
+            this.dataGridViewTextBoxColumn17.Width = 150;
             // 
             // dataGridViewTextBoxColumn18
             // 
             this.dataGridViewTextBoxColumn18.HeaderText = "Intergration";
+            this.dataGridViewTextBoxColumn18.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
             this.dataGridViewTextBoxColumn18.ReadOnly = true;
+            this.dataGridViewTextBoxColumn18.Width = 150;
             // 
             // dataGridViewTextBoxColumn19
             // 
             this.dataGridViewTextBoxColumn19.HeaderText = "Control Weighting";
+            this.dataGridViewTextBoxColumn19.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
             this.dataGridViewTextBoxColumn19.ReadOnly = true;
+            this.dataGridViewTextBoxColumn19.Width = 150;
             // 
             // dataGridViewTextBoxColumn20
             // 
             this.dataGridViewTextBoxColumn20.HeaderText = "Source File";
+            this.dataGridViewTextBoxColumn20.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
             this.dataGridViewTextBoxColumn20.ReadOnly = true;
+            this.dataGridViewTextBoxColumn20.Width = 150;
             // 
             // dataGridViewTextBoxColumn21
             // 
             this.dataGridViewTextBoxColumn21.HeaderText = "Channel Label";
+            this.dataGridViewTextBoxColumn21.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
             this.dataGridViewTextBoxColumn21.ReadOnly = true;
+            this.dataGridViewTextBoxColumn21.Width = 150;
             // 
             // dataGridViewTextBoxColumn22
             // 
             this.dataGridViewTextBoxColumn22.HeaderText = "Current File";
+            this.dataGridViewTextBoxColumn22.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
             this.dataGridViewTextBoxColumn22.ReadOnly = true;
+            this.dataGridViewTextBoxColumn22.Width = 150;
             // 
             // dataGridViewTextBoxColumn23
             // 
             this.dataGridViewTextBoxColumn23.HeaderText = "Channel Label";
+            this.dataGridViewTextBoxColumn23.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
             this.dataGridViewTextBoxColumn23.ReadOnly = true;
+            this.dataGridViewTextBoxColumn23.Width = 150;
             // 
             // dataGridViewTextBoxColumn24
             // 
             this.dataGridViewTextBoxColumn24.HeaderText = "Channel Label";
+            this.dataGridViewTextBoxColumn24.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
+            this.dataGridViewTextBoxColumn24.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn25
+            // 
+            this.dataGridViewTextBoxColumn25.HeaderText = "Index Point";
+            this.dataGridViewTextBoxColumn25.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
+            this.dataGridViewTextBoxColumn25.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn26
+            // 
+            this.dataGridViewTextBoxColumn26.HeaderText = "Nanoseconds";
+            this.dataGridViewTextBoxColumn26.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn26.Name = "dataGridViewTextBoxColumn26";
+            this.dataGridViewTextBoxColumn26.Width = 275;
+            // 
+            // dataGridViewTextBoxColumn27
+            // 
+            this.dataGridViewTextBoxColumn27.HeaderText = "Index Point";
+            this.dataGridViewTextBoxColumn27.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn27.Name = "dataGridViewTextBoxColumn27";
+            this.dataGridViewTextBoxColumn27.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn28
+            // 
+            this.dataGridViewTextBoxColumn28.HeaderText = "Nanoseconds";
+            this.dataGridViewTextBoxColumn28.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn28.Name = "dataGridViewTextBoxColumn28";
+            this.dataGridViewTextBoxColumn28.Width = 275;
+            // 
+            // clmSignalProp
+            // 
+            this.clmSignalProp.HeaderText = "Property";
+            this.clmSignalProp.MinimumWidth = 8;
+            this.clmSignalProp.Name = "clmSignalProp";
+            this.clmSignalProp.Width = 150;
+            // 
+            // clmSignalPropValue
+            // 
+            this.clmSignalPropValue.HeaderText = "Value";
+            this.clmSignalPropValue.MinimumWidth = 8;
+            this.clmSignalPropValue.Name = "clmSignalPropValue";
+            this.clmSignalPropValue.Width = 150;
+            // 
+            // clmHighAbort
+            // 
+            this.clmHighAbort.HeaderText = "High Abort";
+            this.clmHighAbort.MinimumWidth = 8;
+            this.clmHighAbort.Name = "clmHighAbort";
+            this.clmHighAbort.Width = 150;
+            // 
+            // clmHighAlarm
+            // 
+            this.clmHighAlarm.HeaderText = "High Alarm";
+            this.clmHighAlarm.MinimumWidth = 8;
+            this.clmHighAlarm.Name = "clmHighAlarm";
+            this.clmHighAlarm.Width = 150;
+            // 
+            // clmLowAlarm
+            // 
+            this.clmLowAlarm.HeaderText = "Low Alarm";
+            this.clmLowAlarm.MinimumWidth = 8;
+            this.clmLowAlarm.Name = "clmLowAlarm";
+            this.clmLowAlarm.Width = 150;
+            // 
+            // clmLowAbort
+            // 
+            this.clmLowAbort.HeaderText = "Low Alarm";
+            this.clmLowAbort.MinimumWidth = 8;
+            this.clmLowAbort.Name = "clmLowAbort";
+            this.clmLowAbort.Width = 150;
+            // 
+            // clmSourceFile
+            // 
+            this.clmSourceFile.HeaderText = "Source File";
+            this.clmSourceFile.MinimumWidth = 8;
+            this.clmSourceFile.Name = "clmSourceFile";
+            this.clmSourceFile.ReadOnly = true;
+            this.clmSourceFile.Width = 150;
+            // 
+            // clmSourceLabel
+            // 
+            this.clmSourceLabel.HeaderText = "Channel Label";
+            this.clmSourceLabel.MinimumWidth = 8;
+            this.clmSourceLabel.Name = "clmSourceLabel";
+            this.clmSourceLabel.ReadOnly = true;
+            this.clmSourceLabel.Width = 150;
+            // 
+            // clmCurrFile
+            // 
+            this.clmCurrFile.HeaderText = "Current File";
+            this.clmCurrFile.MinimumWidth = 8;
+            this.clmCurrFile.Name = "clmCurrFile";
+            this.clmCurrFile.ReadOnly = true;
+            this.clmCurrFile.Width = 150;
+            // 
+            // clmCurrLabel
+            // 
+            this.clmCurrLabel.HeaderText = "Channel Label";
+            this.clmCurrLabel.MinimumWidth = 8;
+            this.clmCurrLabel.Name = "clmCurrLabel";
+            this.clmCurrLabel.ReadOnly = true;
+            this.clmCurrLabel.Width = 150;
+            // 
+            // clmCalTSDATIndex
+            // 
+            this.clmCalTSDATIndex.HeaderText = "Index Point";
+            this.clmCalTSDATIndex.MinimumWidth = 8;
+            this.clmCalTSDATIndex.Name = "clmCalTSDATIndex";
+            this.clmCalTSDATIndex.ReadOnly = true;
+            this.clmCalTSDATIndex.Width = 150;
+            // 
+            // clmCalTSDATRead
+            // 
+            this.clmCalTSDATRead.HeaderText = "Nanoseconds";
+            this.clmCalTSDATRead.MinimumWidth = 8;
+            this.clmCalTSDATRead.Name = "clmCalTSDATRead";
+            this.clmCalTSDATRead.ReadOnly = true;
+            this.clmCalTSDATRead.Width = 275;
+            // 
+            // clmReadTSDATIndex
+            // 
+            this.clmReadTSDATIndex.HeaderText = "Index Point";
+            this.clmReadTSDATIndex.MinimumWidth = 8;
+            this.clmReadTSDATIndex.Name = "clmReadTSDATIndex";
+            this.clmReadTSDATIndex.ReadOnly = true;
+            this.clmReadTSDATIndex.Width = 150;
+            // 
+            // clmReadTSDATData
+            // 
+            this.clmReadTSDATData.HeaderText = "Nanoseconds";
+            this.clmReadTSDATData.MinimumWidth = 8;
+            this.clmReadTSDATData.Name = "clmReadTSDATData";
+            this.clmReadTSDATData.ReadOnly = true;
+            this.clmReadTSDATData.Width = 275;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Location ID";
+            this.Column1.MinimumWidth = 8;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Channel Type";
+            this.Column2.MinimumWidth = 8;
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Measurement Quantity";
+            this.Column3.MinimumWidth = 8;
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 150;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Engineering Unit";
+            this.Column4.MinimumWidth = 8;
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 125;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Sensitivity";
+            this.Column5.MinimumWidth = 8;
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Width = 125;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Input Mode";
+            this.Column6.MinimumWidth = 8;
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Input Range";
+            this.Column7.MinimumWidth = 8;
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Sensor SN";
+            this.Column10.MinimumWidth = 8;
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Max. sensor range";
+            this.Column8.MinimumWidth = 8;
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Intergration";
+            this.Column11.MinimumWidth = 8;
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            // 
+            // clmWeight
+            // 
+            this.clmWeight.HeaderText = "Control Weighting";
+            this.clmWeight.MinimumWidth = 8;
+            this.clmWeight.Name = "clmWeight";
+            this.clmWeight.ReadOnly = true;
+            // 
+            // clmHiPass
+            // 
+            this.clmHiPass.HeaderText = "Hi-Pass Filter";
+            this.clmHiPass.MinimumWidth = 8;
+            this.clmHiPass.Name = "clmHiPass";
+            // 
+            // flowLayoutPanel6
+            // 
+            this.flowLayoutPanel6.Controls.Add(this.lbSegmentLost);
+            this.flowLayoutPanel6.Controls.Add(this.cbUTCFormatTSDAT);
+            this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel6.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Padding = new System.Windows.Forms.Padding(5);
+            this.tableLayoutPanel3.SetRowSpan(this.flowLayoutPanel6, 2);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(247, 81);
+            this.flowLayoutPanel6.TabIndex = 7;
             // 
             // ATFXReaderDemo
             // 
@@ -882,8 +1366,21 @@ namespace ATFXReader
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannel)).EndInit();
             this.tpMergeInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMergeInfo)).EndInit();
+            this.tpTSDATInfo.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCalculateTSDATInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReadTSDATInfo)).EndInit();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.flowLayoutPanel6.ResumeLayout(false);
+            this.flowLayoutPanel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -954,6 +1451,39 @@ namespace ATFXReader
         private System.Windows.Forms.Button btnShowRecordProp;
         private System.Windows.Forms.Button btnShowDateTimeNanoUTC;
         private System.Windows.Forms.Button btnShowDateTimeNanoLocal;
+        private System.Windows.Forms.FlowLayoutPanel flpSignalChanges;
+        private System.Windows.Forms.ComboBox cbSpecScaleType;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbEngiUnit;
+        private System.Windows.Forms.Button btnShowtsdatUTC;
+        private System.Windows.Forms.TabPage tpTSDATInfo;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.DataGridView dgvReadTSDATInfo;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.TextBox tbTSDATInput;
+        private System.Windows.Forms.Button btnCalculateTSDAT;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.Button btnGenTSDATFile;
+        private System.Windows.Forms.Button btnReadTSDAT;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.DataGridView dgvCalculateTSDATInfo;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.CheckBox cbUseRecording;
+        private System.Windows.Forms.CheckBox cbUTCFormatTSDAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmCalTSDATIndex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmCalTSDATRead;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmReadTSDATIndex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmReadTSDATData;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tbTSDATFrameIndex;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbSignalFrameIndex;
+        private System.Windows.Forms.Label lbSegmentLost;
+        private System.Windows.Forms.Button btnGenSatStat;
+        private System.Windows.Forms.Button btnGenTSTSDATCompare;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
@@ -966,10 +1496,11 @@ namespace ATFXReader
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmWeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmHiPass;
-        private System.Windows.Forms.FlowLayoutPanel flpSignalChanges;
-        private System.Windows.Forms.ComboBox cbSpecScaleType;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cbEngiUnit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn26;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn27;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn28;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
     }
 }
 
