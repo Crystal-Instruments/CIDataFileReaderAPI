@@ -8,7 +8,7 @@ All rights reserved
 from cProfile import label
 import clr
 # Change file path here to whereever the DLL files are
-parentPath = "C:\\MyStuff\\github\\CIDataFileReaderAPI\\bin\\"
+parentPath = "C:\\MyStuff\\DevelopmentalVer\\bin\\AnyCPU\\Debug\\Utility\\CIATFXReader\\"
 
 clr.AddReference(parentPath + "CI.ATFX.Reader.dll")
 clr.AddReference(parentPath + "Common.dll")
