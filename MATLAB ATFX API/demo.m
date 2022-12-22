@@ -30,9 +30,7 @@ disp(System.String.Format("DateTimeNano Object:{0}",dateTimeNano));
 
 disp("display signal frame data");
 % Get signal frame
-frameIndex = 0;
-frame = sig.GetFrame(frameIndex);
-disp(frame);
+frame = sig.GetFrame(0);
 % Convert .Net double[][] array to matlab cell
 matFrame = cell(frame);
 % Long format, showing more decimal places
@@ -61,8 +59,7 @@ engiUnit = EDM.RecordingInterface.AccelerationUnitEnumString.ArrayString(System.
 disp(engiUnit);
 
 % Get signal frame
-frameIndex2 = 0;
-frame2 = sig2.GetFrame(frameIndex2, Common.('_SpectrumScalingType').EURMS2, engiUnit);
+frame2 = sig2.GetFrame(0, Common.('_SpectrumScalingType').EURMS2, engiUnit);
 
 % Convert .Net double[][] array to matlab cell
 matFrame = cell(frame2);

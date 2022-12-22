@@ -19,7 +19,6 @@ using Common;
 using Common.Spider;
 using System.Diagnostics;
 using EDM.Utils;
-using CI.ATFX.Reader;
 
 namespace ATFXReader
 {
@@ -38,7 +37,6 @@ namespace ATFXReader
             SignalFrameData = 2,
             SignalParameters = 3,
             SignalGeneratedTime = 4,
-            TimeStampDataSignalUTC = 5,
         }
 
         /// <summary>
@@ -59,13 +57,6 @@ namespace ATFXReader
         private bool istpSignalInfoSelected;
         private bool istpChannelInfoSelected;
         private bool istpMergeInfoSelected;
-        private bool istpTSDATInfoSelected;
-
-        /// <summary>
-        /// Hold Time stamp recording
-        /// </summary>
-        private IRecording tsRecIndex = null;
-        private IRecording tsdatRecIndex = null;
         #endregion
 
         #region Constructor & Initialize functions
@@ -124,25 +115,11 @@ namespace ATFXReader
             {
                 lbRecordingDataInfo.Items.Clear();
                 lbRecordingDataInfo.Items.Add(rec); // Add the initial IRecording object  
-            }
-            else
-            {
-                lbRecordingDataInfo.Items.Clear();
-                lbRecordingDataInfo.Items.AddRange(Utility.GetListOfAllRecordings(rec).ToArray());
+                return;
             }
 
-            //To hold the time stamp recording and time stamp data recording for usage in Time Stamp API functions
-            foreach(IRecording lbrec in lbRecordingDataInfo.Items)
-            {
-                if (lbrec is TimeStampRecording)
-                {
-                    tsRecIndex = lbrec;
-                } 
-                else if(lbrec is TimeStampDataRecording)
-                {
-                    tsdatRecIndex = lbrec;
-                }
-            }
+            lbRecordingDataInfo.Items.Clear();
+            lbRecordingDataInfo.Items.AddRange(Utility.GetListOfAllRecordings(rec).ToArray());
 
             if (lbRecordingDataInfo.Items.Count > 0)
                 lbRecordingDataInfo.SelectedIndex = 0;
@@ -205,8 +182,8 @@ namespace ATFXReader
         }
 
         /// <summary>
-        /// Show gps data and additional properties of the recording
-        /// <br>Example code to show gps data and additional recording properties</br>
+        /// Show gps data of the recording
+        /// <br>Example code to show gps data</br>
         /// </summary>
         /// <param name="rec"></param>
         private void ShowGPSInfo(IRecording rec)
@@ -221,19 +198,23 @@ namespace ATFXReader
                 if (bGPS)
                 {
                     dgvRecInfo.Rows.Add("GPS Enabled", bGPS);
-                    dgvRecInfo.Rows.Add("Longitude", nvhMeasurement.Longitude);
-                    dgvRecInfo.Rows.Add("Latitude", nvhMeasurement.Latitude);
-                    dgvRecInfo.Rows.Add("Altitude", nvhMeasurement.Altitude);
-                    dgvRecInfo.Rows.Add("Nanoseconds Elapsed", nvhMeasurement.NanoSecondElapsed);
+                    double lng = nvhMeasurement.Longitude;
+                    double lat = nvhMeasurement.Latitude;
+                    double alt = nvhMeasurement.Altitude;
+                    double nano = nvhMeasurement.NanoSecondElapsed;
+
+                    dgvRecInfo.Rows.Add("Longitude", lng);
+                    dgvRecInfo.Rows.Add("Latitude", lat);
+                    dgvRecInfo.Rows.Add("Altitude", alt);
+                    dgvRecInfo.Rows.Add("Nanoseconds Elapsed", nano);
                 }
 
                 if (!String.IsNullOrEmpty(nvhEnvironment.TimeZoneString))
                 {
-                    dgvRecInfo.Rows.Add("Time Zone", nvhEnvironment.TimeZone);
                     dgvRecInfo.Rows.Add("Time Zone", nvhEnvironment.TimeZoneString);
                 }
 
-                dgvRecInfo.Rows.Add("Created Time (PC Local)", nvhRec.RecordingProperty.CreateTime);
+                dgvRecInfo.Rows.Add("Created Time (Local)", nvhRec.RecordingProperty.CreateTime);
                 dgvRecInfo.Rows.Add("Created Time (UTC)", Utils.GetUTCTime(nvhRec.RecordingProperty.CreateTime, null));
                 
                 if (!String.IsNullOrEmpty(nvhEnvironment.InstruSoftwareVersion))
@@ -243,21 +224,6 @@ namespace ATFXReader
                     dgvRecInfo.Rows.Add("Firmware Version", nvhEnvironment.FirmwareVersion);
                     dgvRecInfo.Rows.Add("Bit Version", nvhEnvironment.BitVersion);
                 }
-
-                if (!nvhMeasurement.Channel_Overload.IsCollectionNullOrEmpty())
-                {
-                    dgvRecInfo.Rows.Add("Channels overloaded", Utility.GetChannelOverload(rec));
-                }
-            }
-            else if (rec is TimeStampDataRecording tsdatRec)
-            {
-                dgvRecInfo.Rows.Add("Nanoseconds elapsed", tsdatRec.Signals[0].Properties.GeneratedTime.ms_us_ns);
-                dgvRecInfo.Rows.Add("Created time (PC local)", rec.RecordingProperty.CreateTime);
-                dgvRecInfo.Rows.Add("Created time (UTC)", Utils.GetUTCTime(rec.RecordingProperty.CreateTime, null));
-            }
-            else if (rec is TimeStampRecording tsRec)
-            {
-                dgvRecInfo.Rows.Add("Segment Lost", Utility.DoesTSHaveLostSegments(tsRec.RecordingProperty.RecordingPath));
             }
         }
 
@@ -438,17 +404,15 @@ namespace ATFXReader
         /// <param name="engiUnit"></param>
         private void ShowFrameData(DataGridView grid, ISignal signal, _SpectrumScalingType spectrum, string engiUnit)
         {
-            if (tbSignalFrameIndex.Text.IsNullOrEmpty()) return;
+            double[][] frame = signal.GetFrame(0, spectrum, engiUnit);
+            if (frame == null || frame.Length < 2) return;
 
             try
             {
-                int frameIndex = Int32.Parse(tbSignalFrameIndex.Text);
-                
-                bool IsTimeStampSignal = signal is TimeStampSignal;
-                bool IsTimeStampDataSignal = signal is TimeStampDataSignal;
-
                 grid.SuspendLayout();
                 grid.Rows.Clear();
+
+                var frameSize = frame[0].Length;
 
                 clmSignalProp.HeaderText = $"X Data-{signal.GetLabel(0)}";
                 clmSignalPropValue.HeaderText = $"Y Data-{signal.GetYLabel()[0]}";
@@ -458,170 +422,33 @@ namespace ATFXReader
                 clmLowAlarm.Visible = false;
                 clmLowAbort.Visible = false;
 
-                if(IsTimeStampDataSignal)
+                if (frame.Length == 3)
                 {
-                    //Gets 1 framesize signal frame data I.E 1024 points
-                    //Changing the index will display the other frame data
-                    ulong[][] frame_ul = Utility.ReadTimeStampData(signal, frameIndex * (int)signal.FrameSize, (int)(frameIndex + 1) * (int)signal.FrameSize - 1);
-                    if (frame_ul == null) return;
+                    clmHighAbort.HeaderText = $"Z Data-{signal.GetLabel(2)}";
+                    clmHighAbort.Visible = true;
+                }
 
-                    var frameSize = frame_ul[0].Length;
-                    for (int index = 0; index < frameSize; index++)
+                if (signal.Type == SignalType.Frequency && signal.Name != "H(f)" &&
+                    (signal.Properties.NvhType == _NVHType.FrequencyResponseSpectrum ||
+                    signal.Properties.NvhType == _NVHType.CrosspowerSpectrum || 
+                    signal.Properties.NvhType == _NVHType.ComplexSpectrum))
+                {
+                    clmHighAbort.Visible = true;
+                    clmHighAbort.HeaderText = $"Y data-{signal.GetYLabel()[1]}";
+                    // For H data / phase column data as signal saved it together in the Y data of frame
+                    // It is why the Y data frame size is double than X data frame size
+                    for (int index = 0; index < frameSize * 2; index += 2)
                     {
-                        grid.Rows.Add(frame_ul[0][index].ToString(), frame_ul[1][index].ToString());
+                        grid.Rows.Add(frame[0][index / 2].ToString(), frame[1][index].ToString(), frame[1][index + 1].ToString());
                     }
                 }
-                else if (IsTimeStampSignal)
+                else
                 {
-                    //Gets 1 framesize signal frame data I.E 1024 points
-                    //Changing the index will display the other frame data
-                    //For TimeStamp, this will include a Dict<int, string> that determines if a TS is lost
-                    // Dict<index to insert, **** TS lost ****>
-                    double[][] frame = Utility.GetTSFrameData(out List<int> indexList, out List<string> insertStrings, signal, frameIndex);
-                    if (frame == null) return;
-
-                    var frameSize = frame[0].Length;
-
-                    if (frame.Length == 3)
-                    {
-                        clmHighAbort.HeaderText = $"Z Data-{signal.GetLabel(2)}";
-                        clmHighAbort.Visible = true;
-                    }
-
                     for (int index = 0; index < frameSize; index++)
                     {
                         grid.Rows.Add(frame[0][index].ToString(), frame[1][index].ToString());
                         if (frame.Length == 3 && frame[2].Length > index)
                             grid.Rows[index].Cells[2].Value = frame[2][index].ToString();
-                    }
-
-                    for(int i = 0; i < indexList.Count; i++)
-                    {
-                        grid.Rows.Insert(indexList[i], insertStrings[i]);
-                    }
-                }
-                else
-                {
-                    //Gets 1 framesize signal frame data I.E 1024 points
-                    //Changing the index will display the other frame data
-                    double[][] frame = signal.GetFrame(frameIndex, spectrum, engiUnit);
-                    if (frame == null || frame.Length < 2) return;
-
-                    var frameSize = frame[0].Length;
-
-                    if (frame.Length == 3)
-                    {
-                        clmHighAbort.HeaderText = $"Z Data-{signal.GetLabel(2)}";
-                        clmHighAbort.Visible = true;
-                    }
-
-                    if (signal.Type == SignalType.Frequency && signal.Name != "H(f)" &&
-                        (signal.Properties.NvhType == _NVHType.FrequencyResponseSpectrum ||
-                        signal.Properties.NvhType == _NVHType.CrosspowerSpectrum ||
-                        signal.Properties.NvhType == _NVHType.ComplexSpectrum))
-                    {
-                        clmHighAbort.Visible = true;
-                        clmHighAbort.HeaderText = $"Y data-{signal.GetYLabel()[1]}";
-                        // For H data / phase column data as signal saved it together in the Y data of frame
-                        // It is why the Y data frame size is double than X data frame size
-                        for (int index = 0; index < frameSize * 2; index += 2)
-                        {
-                            grid.Rows.Add(frame[0][index / 2].ToString(), frame[1][index].ToString(), frame[1][index + 1].ToString());
-                        }
-                    }
-                    else
-                    {
-                        for (int index = 0; index < frameSize; index++)
-                        {
-                            grid.Rows.Add(frame[0][index].ToString(), frame[1][index].ToString());
-                            if (frame.Length == 3 && frame[2].Length > index)
-                                grid.Rows[index].Cells[2].Value = frame[2][index].ToString();
-                        }
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-
-            }
-            finally
-            {
-                grid.ResumeLayout();
-                grid.PerformLayout();
-            }
-        }
-
-        /// <summary>
-        /// Show Time Stamp Data points in UTC format that is read from a TimeStampDataSignal / .tsdat file
-        /// </summary>
-        /// <param name="signal"></param>
-        private void ShowTSDATFrameDataUTC(ISignal signal)
-        {
-            if (tbSignalFrameIndex.Text.IsNullOrEmpty()) return;
-
-            int frameIndex = Int32.Parse(tbSignalFrameIndex.Text);
-            if (!(signal is TimeStampDataSignal))
-                return;
-
-            try
-            {
-                dgvSignalDataInfo.SuspendLayout();
-                dgvSignalDataInfo.Rows.Clear();
-
-                clmSignalProp.HeaderText = $"X Data-{signal.GetLabel(0)}";
-                clmSignalPropValue.HeaderText = $"Y Data-UTC";
-                clmHighAbort.Visible = false;
-                clmSignalPropValue.Visible = true;
-                clmHighAlarm.Visible = false;
-                clmLowAlarm.Visible = false;
-                clmLowAbort.Visible = false;
-
-                //Read the TSDAT file and return list<DateTimeNano> and out ulong[] that is the index
-                var utcTSDATpoints = Utility.ReadTimeStampDataUTCFormat(out ulong[] frame_ul, signal, frameIndex * (int)signal.FrameSize, (int)(frameIndex+1) * (int)signal.FrameSize - 1);
-
-                for(int i = 0; i < utcTSDATpoints.Count; i++)
-                {
-                    dgvSignalDataInfo.Rows.Add(frame_ul[i], utcTSDATpoints[i]);
-                }
-            }
-            finally
-            {
-                dgvSignalDataInfo.ResumeLayout();
-                dgvSignalDataInfo.PerformLayout();
-            }
-        }
-
-        /// <summary>
-        /// Show Time Stamp Data points 
-        /// </summary>
-        /// <param name="points"></param>
-        /// <param name="pointsUTC"></param>
-        /// <param name="formatUTC"></param>
-        private void ShowTSDATPoints(DataGridView grid, ulong[][] points = null, List<DateTimeNano> pointsUTC = null, ulong[] frame_ul = null, bool formatUTC = false)
-        {
-            if(!formatUTC && points == null) return;
-            if (formatUTC && pointsUTC == null && frame_ul == null) return;
-
-            try
-            {
-                grid.SuspendLayout();
-                grid.Rows.Clear();
-
-                grid.Columns[0].HeaderText = $"X Data-Points";
-                if (formatUTC)
-                {
-                    grid.Columns[1].HeaderText = $"Y Data-UTC";
-                    for (int i = 0; i < pointsUTC.Count; i++)
-                    {
-                        grid.Rows.Add(frame_ul[i], pointsUTC[i]);
-                    }
-                }
-                else
-                {
-                    grid.Columns[1].HeaderText = $"Y Data-Nanoseconds";
-                    for (int i = 0; i < points[1].Length; i++)
-                    {
-                        grid.Rows.Add(points[0][i], points[1][i]);
                     }
                 }
             }
@@ -672,7 +499,7 @@ namespace ATFXReader
 
         #region Selection Index Change
         /// <summary>
-        /// comboBox selected index change for engineering unit, spectrum type and frame index
+        /// comboBox selected index change for engineering unit
         /// <br>Re get the selected signal frame data with selected spectrum type and new unit selection</br>
         /// </summary>
         /// <param name="sender"></param>
@@ -761,15 +588,6 @@ namespace ATFXReader
                     cbSpecScaleType.Text = "";
                     cbSpecScaleType.Enabled = false;
                 }
-
-                if(signal is TimeStampDataSignal)
-                {
-                    btnShowtsdatUTC.Visible = true;
-                }
-                else
-                {
-                    btnShowtsdatUTC.Visible = false;
-                }
             }
             //Keep tracks of the displayed grid for signal if switching from signal to recording and so on
             switch (signalDataInfo)
@@ -788,9 +606,6 @@ namespace ATFXReader
                     break;
                 case SignalDataInfo.SignalGeneratedTime:
                     BtnShowGeneratedTime_Click(sender, e);
-                    break;
-                case SignalDataInfo.TimeStampDataSignalUTC:
-                    btnShowtsdatUTC_Click(sender, e);
                     break;
             }
         }
@@ -846,7 +661,7 @@ namespace ATFXReader
             lbSignalParameters.Visible = false;
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
-                dlg.Filter = "ATFX file|*.atfx|TS file|*.ts|GPS file|*.gps|TSDAT file|*.tsdat|All File|*.*";
+                dlg.Filter = "ATFX file|*.atfx|TS file|*.ts|GPS file|*.gps|All File|*.*";
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
 
@@ -969,21 +784,6 @@ namespace ATFXReader
         }
 
         /// <summary>
-        /// Button for showing the Time Stamp Data Signal frame data in UTC format
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnShowtsdatUTC_Click(object sender, EventArgs e)
-        {
-            lbSignalParameters.Visible = false;
-            signalDataInfo = SignalDataInfo.TimeStampDataSignalUTC;
-            if (lbSignalDataInfo.SelectedItem is ISignal signal)
-            {
-                ShowTSDATFrameDataUTC(signal);
-            }
-        }
-
-        /// <summary>
         /// Button for showing the recording properties & GPS data
         /// </summary>
         /// <param name="sender"></param>
@@ -1023,119 +823,6 @@ namespace ATFXReader
             if (lbRecordingDataInfo.SelectedItem is IRecording rec)
             {
                 ShowDateTimeNano(rec, true);
-            }
-        }
-
-        /// <summary>
-        /// Generate a TSDAT file
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnGenTSDATFile_Click(object sender, EventArgs e)
-        {
-            if (lbRecordingDataInfo.Items[0] is IRecording rec && rec is ODSATFXMLRecording)
-                Utility.GenerateTSDATFile(rec);
-        }
-
-        /// <summary>
-        /// Generate Satellite Status file
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnGenSatStat_Click(object sender, EventArgs e)
-        {
-            if(tsRecIndex != null)
-                Utility.GenerateSatelliteStatusFile(tsRecIndex.RecordingProperty.RecordingPath, cbUTCFormatTSDAT.Checked);
-        }
-
-        /// <summary>
-        /// Generate TS & TSDAT compare file
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnGenTSTSDATCompare_Click(object sender, EventArgs e)
-        {
-            if (lbRecordingDataInfo.Items[0] is IRecording rec && rec is ODSATFXMLRecording && tsRecIndex != null)
-                Utility.GenerateTSandTSDATCompareFile(rec.Signals[0], tsRecIndex.RecordingProperty.RecordingPath, cbUTCFormatTSDAT.Checked);
-        }
-
-        /// <summary>
-        /// Get tsdat points
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCalculateTSDAT_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (lbRecordingDataInfo.Items[0] is IRecording rec && rec is ODSATFXMLRecording)
-                {
-                    char[] split = { ',' };
-                    if (tbTSDATInput.Text.IsNullOrEmpty())
-                        return;
-                    string index = tbTSDATInput.Text;
-                    string[] startendindex = index.Split(split);
-                    int startindex = Int32.Parse(startendindex[0]);
-                    int endindex = -1;
-                    if (startendindex.Length > 1)
-                    {
-                        endindex = Int32.Parse(startendindex[1]);
-                    }
-                    if (cbUTCFormatTSDAT.Checked)
-                        ShowTSDATPoints(dgvCalculateTSDATInfo, null, Utility.GetTSDATatPointUTCFormat(out ulong[] frame_ul, rec, startindex, endindex), frame_ul, true);
-                    else
-                        ShowTSDATPoints(dgvCalculateTSDATInfo, Utility.GetTSDATatPoint(rec, startindex, endindex));
-                }
-            }
-            catch(Exception ex)
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// Read TSDAT file
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnReadTSDAT_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (tsdatRecIndex != null)
-                {
-                    if (tbTSDATFrameIndex.Text.IsNullOrEmpty()) return;
-                    char[] split = { ',' };
-                    string index = tbTSDATFrameIndex.Text;
-                    string[] startendindex = index.Split(split);
-                    int startindex = Int32.Parse(startendindex[0]);
-                    int endindex = -1;
-                    if (startendindex.Length > 1)
-                    {
-                        endindex = Int32.Parse(startendindex[1]);
-                    }
-
-                    if (cbUseRecording.Checked && cbUTCFormatTSDAT.Checked)
-                    {
-                        ShowTSDATPoints(dgvReadTSDATInfo, null, Utility.ReadTimeStampDataUTCFormat(out ulong[] frame_ul, tsdatRecIndex, startindex, endindex), frame_ul, true);
-                    }
-                    else if (cbUseRecording.Checked && !cbUTCFormatTSDAT.Checked)
-                    {
-                        ShowTSDATPoints(dgvReadTSDATInfo, Utility.ReadTimeStampData(tsdatRecIndex, startindex, endindex));
-                    }
-                    else if (!cbUseRecording.Checked && cbUTCFormatTSDAT.Checked)
-                    {
-                        ShowTSDATPoints(dgvReadTSDATInfo, null, Utility.ReadTimeStampDataUTCFormat(out ulong[] frame_ul, tsdatRecIndex.Signals[0], startindex, endindex), frame_ul, true);
-                    }
-                    else //!cbUseRecording.Checked && !cbUTCFormatTSDAT.Checked
-                    {
-                        ShowTSDATPoints(dgvReadTSDATInfo, Utility.ReadTimeStampData(tsdatRecIndex.Signals[0], startindex, endindex));
-                    }
-                }
-            } 
-            catch(Exception ex)
-            {
-
             }
         }
 
@@ -1231,10 +918,6 @@ namespace ATFXReader
             {
                 currDgv = dgvMergeInfo;
             }
-            else if (istpTSDATInfoSelected)
-            {
-                currDgv = dgvReadTSDATInfo;
-            }
             else
             {
                 return "";
@@ -1277,7 +960,6 @@ namespace ATFXReader
             istpSignalInfoSelected = false;
             istpChannelInfoSelected = false;
             istpMergeInfoSelected = false;
-            istpTSDATInfoSelected = false;
         }
 
         //For GetPropertiesString function
@@ -1287,7 +969,6 @@ namespace ATFXReader
             istpRecInfoSelected = false;
             istpChannelInfoSelected = false;
             istpMergeInfoSelected = false;
-            istpTSDATInfoSelected = false;
         }
 
         //For GetPropertiesString function
@@ -1297,7 +978,6 @@ namespace ATFXReader
             istpRecInfoSelected = false;
             istpSignalInfoSelected = false;
             istpMergeInfoSelected = false;
-            istpTSDATInfoSelected = false;
         }
 
         //For GetPropertiesString function
@@ -1307,24 +987,7 @@ namespace ATFXReader
             istpRecInfoSelected = false;
             istpSignalInfoSelected = false;
             istpChannelInfoSelected = false;
-            istpTSDATInfoSelected = false;
-        }
-
-        //For GetPropertiesString function
-        private void tpTSDATInfo_Enter(object sender, EventArgs e)
-        {
-            istpTSDATInfoSelected = true;
-            istpRecInfoSelected = false;
-            istpSignalInfoSelected = false;
-            istpChannelInfoSelected = false;
-            istpMergeInfoSelected = false;
-
-            if(tsRecIndex != null)
-            {
-                lbSegmentLost.Text = String.Format("Time Stamp Segment Lost: {0}", Utility.DoesTSHaveLostSegments(tsRecIndex.RecordingProperty.RecordingPath));
-            }
         }
         #endregion
-
     }
 }
