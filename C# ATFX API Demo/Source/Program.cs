@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using EDM.Utils;
 
 namespace ATFXReader
 {
@@ -17,6 +18,8 @@ namespace ATFXReader
         [STAThread]
         static void Main()
         {
+            //MixedDllDispatcher.Start();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ATFXReaderDemo());

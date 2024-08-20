@@ -47,14 +47,6 @@ namespace ATFXReader
             this.btnShowDateTimeNanoLocal = new System.Windows.Forms.Button();
             this.tpSignalDataInfo = new System.Windows.Forms.TabPage();
             this.tlpSignalDataInfo = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnSignalBasic = new System.Windows.Forms.Button();
-            this.btnSignalAdv = new System.Windows.Forms.Button();
-            this.btnSignalFrame = new System.Windows.Forms.Button();
-            this.btnSignalParam = new System.Windows.Forms.Button();
-            this.btnShowGeneratedTime = new System.Windows.Forms.Button();
-            this.btnExportCSV2 = new System.Windows.Forms.Button();
-            this.btnShowtsdatUTC = new System.Windows.Forms.Button();
             this.lbSignalDataInfo = new System.Windows.Forms.ListBox();
             this.dgvSignalDataInfo = new System.Windows.Forms.DataGridView();
             this.clmSignalProp = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,6 +62,15 @@ namespace ATFXReader
             this.cbEngiUnit = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSignalFrameIndex = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnSignalBasic = new System.Windows.Forms.Button();
+            this.btnSignalAdv = new System.Windows.Forms.Button();
+            this.btnSignalFrame = new System.Windows.Forms.Button();
+            this.btnSignalParam = new System.Windows.Forms.Button();
+            this.btnShowGeneratedTime = new System.Windows.Forms.Button();
+            this.btnShowtsdatUTC = new System.Windows.Forms.Button();
+            this.btnExportCSV2 = new System.Windows.Forms.Button();
             this.tpChannelInfo = new System.Windows.Forms.TabPage();
             this.dgvChannel = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -118,8 +119,13 @@ namespace ATFXReader
             this.lbSegmentLost = new System.Windows.Forms.Label();
             this.cbUTCFormatTSDAT = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cbMergeAllDRD = new System.Windows.Forms.CheckBox();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
+            this.btnCombineDRDFiles = new System.Windows.Forms.Button();
+            this.cbOnlyDATX = new System.Windows.Forms.CheckBox();
+            this.lblErrorMSG = new System.Windows.Forms.Label();
+            this.bgWorkerDRDCombine = new System.ComponentModel.BackgroundWorker();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -146,6 +152,7 @@ namespace ATFXReader
             this.dataGridViewTextBoxColumn26 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn27 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bgWorkerDRDConvert = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tpRecInfo.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -153,9 +160,10 @@ namespace ATFXReader
             this.flowLayoutPanel2.SuspendLayout();
             this.tpSignalDataInfo.SuspendLayout();
             this.tlpSignalDataInfo.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSignalDataInfo)).BeginInit();
             this.flpSignalChanges.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.tpChannelInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannel)).BeginInit();
             this.tpMergeInfo.SuspendLayout();
@@ -174,7 +182,7 @@ namespace ATFXReader
             // btnOpen
             // 
             this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpen.Location = new System.Drawing.Point(856, 16);
+            this.btnOpen.Location = new System.Drawing.Point(674, 4);
             this.btnOpen.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(100, 23);
@@ -186,26 +194,26 @@ namespace ATFXReader
             // tbFile
             // 
             this.tbFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFile.Location = new System.Drawing.Point(10, 16);
+            this.tbFile.Location = new System.Drawing.Point(10, 4);
             this.tbFile.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
             this.tbFile.Name = "tbFile";
             this.tbFile.ReadOnly = true;
-            this.tbFile.Size = new System.Drawing.Size(826, 23);
+            this.tbFile.Size = new System.Drawing.Size(644, 23);
             this.tbFile.TabIndex = 1;
             // 
             // tabControl1
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.tabControl1, 4);
+            this.tableLayoutPanel2.SetColumnSpan(this.tabControl1, 5);
             this.tabControl1.Controls.Add(this.tpRecInfo);
             this.tabControl1.Controls.Add(this.tpSignalDataInfo);
             this.tabControl1.Controls.Add(this.tpChannelInfo);
             this.tabControl1.Controls.Add(this.tpMergeInfo);
             this.tabControl1.Controls.Add(this.tpTSDATInfo);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(3, 59);
+            this.tabControl1.Location = new System.Drawing.Point(3, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1203, 643);
+            this.tabControl1.Size = new System.Drawing.Size(1203, 637);
             this.tabControl1.TabIndex = 2;
             // 
             // tpRecInfo
@@ -214,7 +222,7 @@ namespace ATFXReader
             this.tpRecInfo.Location = new System.Drawing.Point(4, 24);
             this.tpRecInfo.Name = "tpRecInfo";
             this.tpRecInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRecInfo.Size = new System.Drawing.Size(1195, 615);
+            this.tpRecInfo.Size = new System.Drawing.Size(1195, 609);
             this.tpRecInfo.TabIndex = 0;
             this.tpRecInfo.Text = "Record Information";
             this.tpRecInfo.UseVisualStyleBackColor = true;
@@ -234,7 +242,7 @@ namespace ATFXReader
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1189, 609);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1189, 603);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // dgvRecInfo
@@ -252,7 +260,7 @@ namespace ATFXReader
             this.dgvRecInfo.RowHeadersVisible = false;
             this.dgvRecInfo.RowHeadersWidth = 62;
             this.dgvRecInfo.RowTemplate.Height = 23;
-            this.dgvRecInfo.Size = new System.Drawing.Size(946, 523);
+            this.dgvRecInfo.Size = new System.Drawing.Size(946, 518);
             this.dgvRecInfo.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
@@ -280,7 +288,7 @@ namespace ATFXReader
             this.lbRecordingDataInfo.Location = new System.Drawing.Point(3, 3);
             this.lbRecordingDataInfo.Name = "lbRecordingDataInfo";
             this.tableLayoutPanel1.SetRowSpan(this.lbRecordingDataInfo, 2);
-            this.lbRecordingDataInfo.Size = new System.Drawing.Size(231, 603);
+            this.lbRecordingDataInfo.Size = new System.Drawing.Size(211, 597);
             this.lbRecordingDataInfo.TabIndex = 2;
             this.lbRecordingDataInfo.SelectedIndexChanged += new System.EventHandler(this.LbRecording_SelectedIndexChanged);
             // 
@@ -290,11 +298,11 @@ namespace ATFXReader
             this.flowLayoutPanel2.Controls.Add(this.btnShowDateTimeNanoUTC);
             this.flowLayoutPanel2.Controls.Add(this.btnShowDateTimeNanoLocal);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(238, 530);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(238, 525);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(1);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(950, 78);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(950, 77);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
             // btnShowRecordProp
@@ -336,7 +344,7 @@ namespace ATFXReader
             this.tpSignalDataInfo.Location = new System.Drawing.Point(4, 24);
             this.tpSignalDataInfo.Name = "tpSignalDataInfo";
             this.tpSignalDataInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSignalDataInfo.Size = new System.Drawing.Size(1195, 615);
+            this.tpSignalDataInfo.Size = new System.Drawing.Size(1195, 609);
             this.tpSignalDataInfo.TabIndex = 6;
             this.tpSignalDataInfo.Text = "Signal Data Information";
             this.tpSignalDataInfo.UseVisualStyleBackColor = true;
@@ -348,11 +356,12 @@ namespace ATFXReader
             this.tlpSignalDataInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpSignalDataInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpSignalDataInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlpSignalDataInfo.Controls.Add(this.flowLayoutPanel1, 2, 2);
+            this.tlpSignalDataInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpSignalDataInfo.Controls.Add(this.lbSignalDataInfo, 0, 0);
             this.tlpSignalDataInfo.Controls.Add(this.dgvSignalDataInfo, 2, 0);
             this.tlpSignalDataInfo.Controls.Add(this.lbSignalParameters, 1, 0);
             this.tlpSignalDataInfo.Controls.Add(this.flpSignalChanges, 2, 1);
+            this.tlpSignalDataInfo.Controls.Add(this.tableLayoutPanel4, 2, 2);
             this.tlpSignalDataInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSignalDataInfo.Location = new System.Drawing.Point(3, 3);
             this.tlpSignalDataInfo.Name = "tlpSignalDataInfo";
@@ -360,98 +369,8 @@ namespace ATFXReader
             this.tlpSignalDataInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSignalDataInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSignalDataInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpSignalDataInfo.Size = new System.Drawing.Size(1189, 609);
+            this.tlpSignalDataInfo.Size = new System.Drawing.Size(1189, 603);
             this.tlpSignalDataInfo.TabIndex = 0;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Controls.Add(this.btnSignalBasic);
-            this.flowLayoutPanel1.Controls.Add(this.btnSignalAdv);
-            this.flowLayoutPanel1.Controls.Add(this.btnSignalFrame);
-            this.flowLayoutPanel1.Controls.Add(this.btnSignalParam);
-            this.flowLayoutPanel1.Controls.Add(this.btnShowGeneratedTime);
-            this.flowLayoutPanel1.Controls.Add(this.btnExportCSV2);
-            this.flowLayoutPanel1.Controls.Add(this.btnShowtsdatUTC);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(313, 540);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(875, 66);
-            this.flowLayoutPanel1.TabIndex = 1;
-            // 
-            // btnSignalBasic
-            // 
-            this.btnSignalBasic.Location = new System.Drawing.Point(13, 8);
-            this.btnSignalBasic.Name = "btnSignalBasic";
-            this.btnSignalBasic.Size = new System.Drawing.Size(136, 23);
-            this.btnSignalBasic.TabIndex = 0;
-            this.btnSignalBasic.Text = "Show Basic Signal Info";
-            this.btnSignalBasic.UseVisualStyleBackColor = true;
-            this.btnSignalBasic.Click += new System.EventHandler(this.BtnSignalBasicInfo_Click);
-            // 
-            // btnSignalAdv
-            // 
-            this.btnSignalAdv.Location = new System.Drawing.Point(155, 8);
-            this.btnSignalAdv.Name = "btnSignalAdv";
-            this.btnSignalAdv.Size = new System.Drawing.Size(156, 23);
-            this.btnSignalAdv.TabIndex = 1;
-            this.btnSignalAdv.Text = "Show Advance Signal Info";
-            this.btnSignalAdv.UseVisualStyleBackColor = true;
-            this.btnSignalAdv.Click += new System.EventHandler(this.BtnSignalAdvInfo_Click);
-            // 
-            // btnSignalFrame
-            // 
-            this.btnSignalFrame.Location = new System.Drawing.Point(317, 8);
-            this.btnSignalFrame.Name = "btnSignalFrame";
-            this.btnSignalFrame.Size = new System.Drawing.Size(148, 23);
-            this.btnSignalFrame.TabIndex = 2;
-            this.btnSignalFrame.Text = "Show Signal Frame Data";
-            this.btnSignalFrame.UseVisualStyleBackColor = true;
-            this.btnSignalFrame.Click += new System.EventHandler(this.BtnSignalFrameData_Click);
-            // 
-            // btnSignalParam
-            // 
-            this.btnSignalParam.Location = new System.Drawing.Point(471, 8);
-            this.btnSignalParam.Name = "btnSignalParam";
-            this.btnSignalParam.Size = new System.Drawing.Size(146, 23);
-            this.btnSignalParam.TabIndex = 3;
-            this.btnSignalParam.Text = "Show Signal Parameters";
-            this.btnSignalParam.UseVisualStyleBackColor = true;
-            this.btnSignalParam.Click += new System.EventHandler(this.BtnSignalParam_Click);
-            // 
-            // btnShowGeneratedTime
-            // 
-            this.btnShowGeneratedTime.Location = new System.Drawing.Point(623, 8);
-            this.btnShowGeneratedTime.Name = "btnShowGeneratedTime";
-            this.btnShowGeneratedTime.Size = new System.Drawing.Size(136, 23);
-            this.btnShowGeneratedTime.TabIndex = 4;
-            this.btnShowGeneratedTime.Text = "Show Generated Time";
-            this.btnShowGeneratedTime.UseVisualStyleBackColor = true;
-            this.btnShowGeneratedTime.Click += new System.EventHandler(this.BtnShowGeneratedTime_Click);
-            // 
-            // btnExportCSV2
-            // 
-            this.btnExportCSV2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportCSV2.Location = new System.Drawing.Point(767, 8);
-            this.btnExportCSV2.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.btnExportCSV2.Name = "btnExportCSV2";
-            this.btnExportCSV2.Size = new System.Drawing.Size(79, 23);
-            this.btnExportCSV2.TabIndex = 0;
-            this.btnExportCSV2.Text = "Export CSV";
-            this.btnExportCSV2.UseVisualStyleBackColor = true;
-            this.btnExportCSV2.Click += new System.EventHandler(this.BtnExportCSV_Click);
-            // 
-            // btnShowtsdatUTC
-            // 
-            this.btnShowtsdatUTC.Location = new System.Drawing.Point(13, 37);
-            this.btnShowtsdatUTC.Name = "btnShowtsdatUTC";
-            this.btnShowtsdatUTC.Size = new System.Drawing.Size(188, 23);
-            this.btnShowtsdatUTC.TabIndex = 5;
-            this.btnShowtsdatUTC.Text = "Show TSDAT Frame Data in UTC";
-            this.btnShowtsdatUTC.UseVisualStyleBackColor = true;
-            this.btnShowtsdatUTC.Click += new System.EventHandler(this.btnShowtsdatUTC_Click);
             // 
             // lbSignalDataInfo
             // 
@@ -462,7 +381,7 @@ namespace ATFXReader
             this.lbSignalDataInfo.Location = new System.Drawing.Point(3, 3);
             this.lbSignalDataInfo.Name = "lbSignalDataInfo";
             this.tlpSignalDataInfo.SetRowSpan(this.lbSignalDataInfo, 3);
-            this.lbSignalDataInfo.Size = new System.Drawing.Size(150, 605);
+            this.lbSignalDataInfo.Size = new System.Drawing.Size(150, 628);
             this.lbSignalDataInfo.TabIndex = 0;
             this.lbSignalDataInfo.SelectedIndexChanged += new System.EventHandler(this.LbSignalDataInfo_SelectedIndexChanged);
             // 
@@ -538,7 +457,7 @@ namespace ATFXReader
             this.lbSignalParameters.Location = new System.Drawing.Point(159, 3);
             this.lbSignalParameters.Name = "lbSignalParameters";
             this.tlpSignalDataInfo.SetRowSpan(this.lbSignalParameters, 3);
-            this.lbSignalParameters.Size = new System.Drawing.Size(150, 605);
+            this.lbSignalParameters.Size = new System.Drawing.Size(150, 628);
             this.lbSignalParameters.TabIndex = 2;
             this.lbSignalParameters.Visible = false;
             this.lbSignalParameters.SelectedIndexChanged += new System.EventHandler(this.LbSignalParameter_SelectedIndexChanged);
@@ -608,13 +527,117 @@ namespace ATFXReader
             this.tbSignalFrameIndex.Text = "0";
             this.tbSignalFrameIndex.TextChanged += new System.EventHandler(this.cbEngiUnit_SelectedIndexChanged);
             // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Controls.Add(this.flowLayoutPanel1, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(315, 542);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(871, 89);
+            this.tableLayoutPanel4.TabIndex = 4;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel1.Controls.Add(this.btnSignalBasic);
+            this.flowLayoutPanel1.Controls.Add(this.btnSignalAdv);
+            this.flowLayoutPanel1.Controls.Add(this.btnSignalFrame);
+            this.flowLayoutPanel1.Controls.Add(this.btnSignalParam);
+            this.flowLayoutPanel1.Controls.Add(this.btnShowGeneratedTime);
+            this.flowLayoutPanel1.Controls.Add(this.btnShowtsdatUTC);
+            this.flowLayoutPanel1.Controls.Add(this.btnExportCSV2);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 1);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(869, 88);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // btnSignalBasic
+            // 
+            this.btnSignalBasic.Location = new System.Drawing.Point(13, 8);
+            this.btnSignalBasic.Name = "btnSignalBasic";
+            this.btnSignalBasic.Size = new System.Drawing.Size(136, 23);
+            this.btnSignalBasic.TabIndex = 0;
+            this.btnSignalBasic.Text = "Show Basic Signal Info";
+            this.btnSignalBasic.UseVisualStyleBackColor = true;
+            this.btnSignalBasic.Click += new System.EventHandler(this.BtnSignalBasicInfo_Click);
+            // 
+            // btnSignalAdv
+            // 
+            this.btnSignalAdv.Location = new System.Drawing.Point(155, 8);
+            this.btnSignalAdv.Name = "btnSignalAdv";
+            this.btnSignalAdv.Size = new System.Drawing.Size(156, 23);
+            this.btnSignalAdv.TabIndex = 1;
+            this.btnSignalAdv.Text = "Show Advance Signal Info";
+            this.btnSignalAdv.UseVisualStyleBackColor = true;
+            this.btnSignalAdv.Click += new System.EventHandler(this.BtnSignalAdvInfo_Click);
+            // 
+            // btnSignalFrame
+            // 
+            this.btnSignalFrame.Location = new System.Drawing.Point(317, 8);
+            this.btnSignalFrame.Name = "btnSignalFrame";
+            this.btnSignalFrame.Size = new System.Drawing.Size(148, 23);
+            this.btnSignalFrame.TabIndex = 2;
+            this.btnSignalFrame.Text = "Show Signal Frame Data";
+            this.btnSignalFrame.UseVisualStyleBackColor = true;
+            this.btnSignalFrame.Click += new System.EventHandler(this.BtnSignalFrameData_Click);
+            // 
+            // btnSignalParam
+            // 
+            this.btnSignalParam.Location = new System.Drawing.Point(471, 8);
+            this.btnSignalParam.Name = "btnSignalParam";
+            this.btnSignalParam.Size = new System.Drawing.Size(146, 23);
+            this.btnSignalParam.TabIndex = 3;
+            this.btnSignalParam.Text = "Show Signal Parameters";
+            this.btnSignalParam.UseVisualStyleBackColor = true;
+            this.btnSignalParam.Click += new System.EventHandler(this.BtnSignalParam_Click);
+            // 
+            // btnShowGeneratedTime
+            // 
+            this.btnShowGeneratedTime.Location = new System.Drawing.Point(623, 8);
+            this.btnShowGeneratedTime.Name = "btnShowGeneratedTime";
+            this.btnShowGeneratedTime.Size = new System.Drawing.Size(136, 23);
+            this.btnShowGeneratedTime.TabIndex = 4;
+            this.btnShowGeneratedTime.Text = "Show Generated Time";
+            this.btnShowGeneratedTime.UseVisualStyleBackColor = true;
+            this.btnShowGeneratedTime.Click += new System.EventHandler(this.BtnShowGeneratedTime_Click);
+            // 
+            // btnShowtsdatUTC
+            // 
+            this.btnShowtsdatUTC.Location = new System.Drawing.Point(13, 37);
+            this.btnShowtsdatUTC.Name = "btnShowtsdatUTC";
+            this.btnShowtsdatUTC.Size = new System.Drawing.Size(188, 23);
+            this.btnShowtsdatUTC.TabIndex = 5;
+            this.btnShowtsdatUTC.Text = "Show TSDAT Frame Data in UTC";
+            this.btnShowtsdatUTC.UseVisualStyleBackColor = true;
+            this.btnShowtsdatUTC.Click += new System.EventHandler(this.btnShowtsdatUTC_Click);
+            // 
+            // btnExportCSV2
+            // 
+            this.btnExportCSV2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportCSV2.Location = new System.Drawing.Point(209, 37);
+            this.btnExportCSV2.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.btnExportCSV2.Name = "btnExportCSV2";
+            this.btnExportCSV2.Size = new System.Drawing.Size(79, 23);
+            this.btnExportCSV2.TabIndex = 0;
+            this.btnExportCSV2.Text = "Export CSV";
+            this.btnExportCSV2.UseVisualStyleBackColor = true;
+            this.btnExportCSV2.Click += new System.EventHandler(this.BtnExportCSV_Click);
+            // 
             // tpChannelInfo
             // 
             this.tpChannelInfo.Controls.Add(this.dgvChannel);
             this.tpChannelInfo.Location = new System.Drawing.Point(4, 24);
             this.tpChannelInfo.Name = "tpChannelInfo";
             this.tpChannelInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpChannelInfo.Size = new System.Drawing.Size(1057, 615);
+            this.tpChannelInfo.Size = new System.Drawing.Size(1195, 609);
             this.tpChannelInfo.TabIndex = 4;
             this.tpChannelInfo.Text = "Channel Table";
             this.tpChannelInfo.UseVisualStyleBackColor = true;
@@ -645,7 +668,7 @@ namespace ATFXReader
             this.dgvChannel.RowHeadersVisible = false;
             this.dgvChannel.RowHeadersWidth = 62;
             this.dgvChannel.RowTemplate.Height = 23;
-            this.dgvChannel.Size = new System.Drawing.Size(1051, 609);
+            this.dgvChannel.Size = new System.Drawing.Size(1189, 603);
             this.dgvChannel.TabIndex = 1;
             // 
             // Column1
@@ -740,7 +763,7 @@ namespace ATFXReader
             this.tpMergeInfo.Location = new System.Drawing.Point(4, 24);
             this.tpMergeInfo.Name = "tpMergeInfo";
             this.tpMergeInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMergeInfo.Size = new System.Drawing.Size(1057, 615);
+            this.tpMergeInfo.Size = new System.Drawing.Size(1195, 609);
             this.tpMergeInfo.TabIndex = 7;
             this.tpMergeInfo.Text = "Merge Info";
             this.tpMergeInfo.UseVisualStyleBackColor = true;
@@ -762,7 +785,7 @@ namespace ATFXReader
             this.dgvMergeInfo.ReadOnly = true;
             this.dgvMergeInfo.RowHeadersVisible = false;
             this.dgvMergeInfo.RowHeadersWidth = 62;
-            this.dgvMergeInfo.Size = new System.Drawing.Size(1051, 609);
+            this.dgvMergeInfo.Size = new System.Drawing.Size(1189, 603);
             this.dgvMergeInfo.TabIndex = 0;
             // 
             // clmSourceFile
@@ -802,7 +825,7 @@ namespace ATFXReader
             this.tpTSDATInfo.Controls.Add(this.tableLayoutPanel3);
             this.tpTSDATInfo.Location = new System.Drawing.Point(4, 24);
             this.tpTSDATInfo.Name = "tpTSDATInfo";
-            this.tpTSDATInfo.Size = new System.Drawing.Size(1057, 615);
+            this.tpTSDATInfo.Size = new System.Drawing.Size(1195, 609);
             this.tpTSDATInfo.TabIndex = 8;
             this.tpTSDATInfo.Text = "Time Stamp Data";
             this.tpTSDATInfo.UseVisualStyleBackColor = true;
@@ -831,16 +854,16 @@ namespace ATFXReader
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.70297F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.67327F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.72277F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1057, 615);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1195, 609);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // textBox2
             // 
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Location = new System.Drawing.Point(657, 3);
+            this.textBox2.Location = new System.Drawing.Point(743, 3);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(397, 23);
+            this.textBox2.Size = new System.Drawing.Size(449, 23);
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = "Calculating TSDAT File";
             // 
@@ -853,13 +876,13 @@ namespace ATFXReader
             this.clmCalTSDATIndex,
             this.clmCalTSDATRead});
             this.dgvCalculateTSDATInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvCalculateTSDATInfo.Location = new System.Drawing.Point(657, 32);
+            this.dgvCalculateTSDATInfo.Location = new System.Drawing.Point(743, 32);
             this.dgvCalculateTSDATInfo.Name = "dgvCalculateTSDATInfo";
             this.dgvCalculateTSDATInfo.ReadOnly = true;
             this.dgvCalculateTSDATInfo.RowHeadersVisible = false;
             this.dgvCalculateTSDATInfo.RowHeadersWidth = 62;
             this.tableLayoutPanel3.SetRowSpan(this.dgvCalculateTSDATInfo, 4);
-            this.dgvCalculateTSDATInfo.Size = new System.Drawing.Size(397, 580);
+            this.dgvCalculateTSDATInfo.Size = new System.Drawing.Size(449, 574);
             this.dgvCalculateTSDATInfo.TabIndex = 3;
             // 
             // clmCalTSDATIndex
@@ -887,13 +910,13 @@ namespace ATFXReader
             this.clmReadTSDATIndex,
             this.clmReadTSDATData});
             this.dgvReadTSDATInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvReadTSDATInfo.Location = new System.Drawing.Point(256, 32);
+            this.dgvReadTSDATInfo.Location = new System.Drawing.Point(289, 32);
             this.dgvReadTSDATInfo.Name = "dgvReadTSDATInfo";
             this.dgvReadTSDATInfo.ReadOnly = true;
             this.dgvReadTSDATInfo.RowHeadersVisible = false;
             this.dgvReadTSDATInfo.RowHeadersWidth = 62;
             this.tableLayoutPanel3.SetRowSpan(this.dgvReadTSDATInfo, 4);
-            this.dgvReadTSDATInfo.Size = new System.Drawing.Size(395, 580);
+            this.dgvReadTSDATInfo.Size = new System.Drawing.Size(448, 574);
             this.dgvReadTSDATInfo.TabIndex = 0;
             // 
             // clmReadTSDATIndex
@@ -920,10 +943,10 @@ namespace ATFXReader
             this.flowLayoutPanel3.Controls.Add(this.cbUseRecording);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 90);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 89);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Padding = new System.Windows.Forms.Padding(5);
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(247, 168);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(280, 166);
             this.flowLayoutPanel3.TabIndex = 1;
             // 
             // textBox5
@@ -970,10 +993,10 @@ namespace ATFXReader
             this.flowLayoutPanel4.Controls.Add(this.btnCalculateTSDAT);
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 264);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 261);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Padding = new System.Windows.Forms.Padding(5);
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(247, 185);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(280, 183);
             this.flowLayoutPanel4.TabIndex = 2;
             // 
             // textBox4
@@ -1006,10 +1029,10 @@ namespace ATFXReader
             // textBox1
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(256, 3);
+            this.textBox1.Location = new System.Drawing.Point(289, 3);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(395, 23);
+            this.textBox1.Size = new System.Drawing.Size(448, 23);
             this.textBox1.TabIndex = 4;
             this.textBox1.Text = "Reading TSDAT File";
             // 
@@ -1020,10 +1043,10 @@ namespace ATFXReader
             this.flowLayoutPanel5.Controls.Add(this.btnGenSatStat);
             this.flowLayoutPanel5.Controls.Add(this.btnGenTSTSDATCompare);
             this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 455);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 450);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Padding = new System.Windows.Forms.Padding(5);
-            this.flowLayoutPanel5.Size = new System.Drawing.Size(247, 157);
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(280, 156);
             this.flowLayoutPanel5.TabIndex = 6;
             // 
             // textBox3
@@ -1076,7 +1099,7 @@ namespace ATFXReader
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
             this.flowLayoutPanel6.Padding = new System.Windows.Forms.Padding(5);
             this.tableLayoutPanel3.SetRowSpan(this.flowLayoutPanel6, 2);
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(247, 81);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(280, 80);
             this.flowLayoutPanel6.TabIndex = 7;
             // 
             // lbSegmentLost
@@ -1101,33 +1124,51 @@ namespace ATFXReader
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel2.ColumnCount = 5;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel2.Controls.Add(this.cbMergeAllDRD, 4, 1);
             this.tableLayoutPanel2.Controls.Add(this.btnOpen, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tbFile, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.tabControl1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.tabControl1, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.btnCopy, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnExport, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnExport, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.btnCombineDRDFiles, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.cbOnlyDATX, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.lblErrorMSG, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92F));
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 4.5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 4.5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1209, 705);
             this.tableLayoutPanel2.TabIndex = 4;
+            // 
+            // cbMergeAllDRD
+            // 
+            this.cbMergeAllDRD.AutoSize = true;
+            this.cbMergeAllDRD.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMergeAllDRD.Location = new System.Drawing.Point(1028, 34);
+            this.cbMergeAllDRD.Name = "cbMergeAllDRD";
+            this.cbMergeAllDRD.Size = new System.Drawing.Size(178, 25);
+            this.cbMergeAllDRD.TabIndex = 8;
+            this.cbMergeAllDRD.Text = "Merge all DRD files in folder";
+            this.cbMergeAllDRD.UseVisualStyleBackColor = true;
+            this.cbMergeAllDRD.Visible = false;
             // 
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopy.Enabled = false;
-            this.btnCopy.Location = new System.Drawing.Point(976, 16);
+            this.btnCopy.Location = new System.Drawing.Point(794, 4);
             this.btnCopy.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(100, 23);
+            this.btnCopy.Size = new System.Drawing.Size(76, 23);
             this.btnCopy.TabIndex = 3;
             this.btnCopy.Text = "Copy";
             this.btnCopy.UseVisualStyleBackColor = true;
@@ -1137,14 +1178,53 @@ namespace ATFXReader
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Enabled = false;
-            this.btnExport.Location = new System.Drawing.Point(1096, 16);
+            this.btnExport.Location = new System.Drawing.Point(794, 35);
             this.btnExport.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(103, 23);
+            this.btnExport.Size = new System.Drawing.Size(76, 23);
             this.btnExport.TabIndex = 4;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // btnCombineDRDFiles
+            // 
+            this.btnCombineDRDFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCombineDRDFiles.Location = new System.Drawing.Point(890, 4);
+            this.btnCombineDRDFiles.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.btnCombineDRDFiles.Name = "btnCombineDRDFiles";
+            this.btnCombineDRDFiles.Size = new System.Drawing.Size(125, 23);
+            this.btnCombineDRDFiles.TabIndex = 5;
+            this.btnCombineDRDFiles.Text = "Convert DRD Files";
+            this.btnCombineDRDFiles.UseVisualStyleBackColor = true;
+            this.btnCombineDRDFiles.Click += new System.EventHandler(this.btnCombineDRDFiles_Click);
+            // 
+            // cbOnlyDATX
+            // 
+            this.cbOnlyDATX.AutoSize = true;
+            this.cbOnlyDATX.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbOnlyDATX.Location = new System.Drawing.Point(1028, 3);
+            this.cbOnlyDATX.Name = "cbOnlyDATX";
+            this.cbOnlyDATX.Size = new System.Drawing.Size(178, 25);
+            this.cbOnlyDATX.TabIndex = 7;
+            this.cbOnlyDATX.Text = "Convert with only DATX";
+            this.cbOnlyDATX.UseVisualStyleBackColor = true;
+            this.cbOnlyDATX.Visible = false;
+            // 
+            // lblErrorMSG
+            // 
+            this.lblErrorMSG.AutoSize = true;
+            this.lblErrorMSG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblErrorMSG.Location = new System.Drawing.Point(3, 34);
+            this.lblErrorMSG.Margin = new System.Windows.Forms.Padding(3);
+            this.lblErrorMSG.Name = "lblErrorMSG";
+            this.lblErrorMSG.Padding = new System.Windows.Forms.Padding(5);
+            this.lblErrorMSG.Size = new System.Drawing.Size(658, 25);
+            this.lblErrorMSG.TabIndex = 9;
+            // 
+            // bgWorkerDRDCombine
+            // 
+            this.bgWorkerDRDCombine.WorkerReportsProgress = true;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -1343,6 +1423,10 @@ namespace ATFXReader
             this.dataGridViewTextBoxColumn28.Name = "dataGridViewTextBoxColumn28";
             this.dataGridViewTextBoxColumn28.Width = 275;
             // 
+            // bgWorkerDRDConvert
+            // 
+            this.bgWorkerDRDConvert.WorkerReportsProgress = true;
+            // 
             // ATFXReaderDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1361,10 +1445,11 @@ namespace ATFXReader
             this.flowLayoutPanel2.PerformLayout();
             this.tpSignalDataInfo.ResumeLayout(false);
             this.tlpSignalDataInfo.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSignalDataInfo)).EndInit();
             this.flpSignalChanges.ResumeLayout(false);
             this.flpSignalChanges.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.tpChannelInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannel)).EndInit();
             this.tpMergeInfo.ResumeLayout(false);
@@ -1404,12 +1489,6 @@ namespace ATFXReader
         private System.Windows.Forms.TableLayoutPanel tlpSignalDataInfo;
         private System.Windows.Forms.ListBox lbSignalDataInfo;
         private System.Windows.Forms.DataGridView dgvSignalDataInfo;
-        private System.Windows.Forms.Button btnExportCSV2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button btnSignalBasic;
-        private System.Windows.Forms.Button btnSignalAdv;
-        private System.Windows.Forms.Button btnSignalFrame;
-        private System.Windows.Forms.Button btnSignalParam;
         private System.Windows.Forms.ListBox lbSignalParameters;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmSignalProp;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmSignalPropValue;
@@ -1448,7 +1527,6 @@ namespace ATFXReader
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ListBox lbRecordingDataInfo;
-        private System.Windows.Forms.Button btnShowGeneratedTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button btnShowRecordProp;
@@ -1458,7 +1536,6 @@ namespace ATFXReader
         private System.Windows.Forms.ComboBox cbSpecScaleType;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbEngiUnit;
-        private System.Windows.Forms.Button btnShowtsdatUTC;
         private System.Windows.Forms.TabPage tpTSDATInfo;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dgvReadTSDATInfo;
@@ -1504,6 +1581,21 @@ namespace ATFXReader
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn27;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn28;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
+        private System.Windows.Forms.Button btnCombineDRDFiles;
+        private System.ComponentModel.BackgroundWorker bgWorkerDRDCombine;
+        private System.ComponentModel.BackgroundWorker bgWorkerDRDConvert;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btnSignalBasic;
+        private System.Windows.Forms.Button btnSignalAdv;
+        private System.Windows.Forms.Button btnSignalFrame;
+        private System.Windows.Forms.Button btnSignalParam;
+        private System.Windows.Forms.Button btnShowGeneratedTime;
+        private System.Windows.Forms.Button btnShowtsdatUTC;
+        private System.Windows.Forms.Button btnExportCSV2;
+        private System.Windows.Forms.CheckBox cbMergeAllDRD;
+        private System.Windows.Forms.CheckBox cbOnlyDATX;
+        private System.Windows.Forms.Label lblErrorMSG;
     }
 }
 

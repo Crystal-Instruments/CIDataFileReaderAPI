@@ -20,12 +20,23 @@ using Common.Spider;
 using System.Diagnostics;
 using EDM.Utils;
 using CI.ATFX.Reader;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using CI.ATFX.Reader.Demo;
+using System.Net.NetworkInformation;
 
 namespace ATFXReader
 {
     public partial class ATFXReaderDemo : Form
     {
         #region Fields
+        DRDConverter drdConverter = new DRDConverter();
+        List<string> drdOutputPath;
+        string drdFilesSelectedPath;
+        ProgressBarForm pgForm;
+        bool DRDConvertSucceed = false;
+        string savePath;
+        string currentOpenFile;
+
         /// <summary>
         /// Determine whether the current datagridview for Signals should be displaying
         /// <br>Basic info, advance info, frame data, parameters or generated time</br>
@@ -66,6 +77,9 @@ namespace ATFXReader
         /// </summary>
         private IRecording tsRecIndex = null;
         private IRecording tsdatRecIndex = null;
+
+        private ExportStatus status;
+        private Action<ExportStatus> delStatus;
         #endregion
 
         #region Constructor & Initialize functions
@@ -80,6 +94,14 @@ namespace ATFXReader
             clmHighAlarm.Visible = false;
             clmLowAlarm.Visible = false;
             clmLowAbort.Visible = false;
+
+            //drdConverter.ReportProgress += new EventHandler<DRDConverter.ProgressArgs>(DRDConverterCombine_ReportProgress);
+            bgWorkerDRDCombine.DoWork += new DoWorkEventHandler(bgWorkerDRDCombine_DoWork);
+            bgWorkerDRDCombine.ProgressChanged += new ProgressChangedEventHandler(bgWorkerDRDCombine_ProgressChanged);
+            bgWorkerDRDCombine.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgWorkerDRDCombine_RunWorkerCompleted);
+            bgWorkerDRDConvert.DoWork += new DoWorkEventHandler(bgWorkerDRDConvert_DoWork);
+            bgWorkerDRDConvert.ProgressChanged += new ProgressChangedEventHandler(bgWorkerDRDCombine_ProgressChanged);
+            bgWorkerDRDConvert.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgWorkerDRDConvert_RunWorkerCompleted);
         }
 
         /// <summary>
@@ -843,6 +865,7 @@ namespace ATFXReader
         /// <param name="e"></param>
         private void BtnOpen_Click(object sender, EventArgs e)
         {
+            lblErrorMSG.Text = "";
             lbSignalParameters.Visible = false;
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
@@ -850,17 +873,43 @@ namespace ATFXReader
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
 
-                    if (!string.IsNullOrEmpty(tbFile.Text))
+                    if (!string.IsNullOrEmpty(currentOpenFile))
                     {
-                        RecordingManager.Manager.CloseRecording(tbFile.Text);
+                        RecordingManager.Manager.CloseRecording(currentOpenFile);
                     }
 
-                    tbFile.Text = dlg.FileName;
-                    if (RecordingManager.Manager.OpenRecording(tbFile.Text, out IRecording rec))
+                    currentOpenFile = tbFile.Text = dlg.FileName;
+                    savePath = Path.GetDirectoryName(dlg.FileName);
+                    if (RecordingManager.Manager.OpenRecording(currentOpenFile, out IRecording rec))
                     {
                         LoadRecord(rec);
                         btnCopy.Enabled = true;
                         btnExport.Enabled = true;
+                    }
+                    else
+                    {
+                        lblErrorMSG.Text = "Error message: Failed to open recording.";
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Button for combining split DRD recordings in a folder.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCombineDRDFiles_Click(object sender, EventArgs e)
+        {
+            lblErrorMSG.Text = "";
+            using (FolderBrowserDialog dlg = new FolderBrowserDialog())
+            {
+                if (dlg.ShowDialog(this) == DialogResult.OK && !string.IsNullOrWhiteSpace(dlg.SelectedPath))
+                {
+                    drdFilesSelectedPath = dlg.SelectedPath;
+                    if (!bgWorkerDRDCombine.IsBusy)
+                    {
+                        bgWorkerDRDCombine.RunWorkerAsync(); // See DRD BackgroundWorker Progress Updater Region for related code
                     }
                 }
             }
@@ -1146,6 +1195,7 @@ namespace ATFXReader
         /// <param name="e"></param>
         private void BtnExportCSV_Click(object sender, EventArgs e)
         {
+            lblErrorMSG.Text = "";
             if (lbSignalDataInfo.SelectedItem is ISignal signal)
             {
                 using (SaveFileDialog dlg = new SaveFileDialog())
@@ -1169,6 +1219,7 @@ namespace ATFXReader
         /// <param name="e"></param>
         private void btnCopy_Click(object sender, EventArgs e)
         {
+            lblErrorMSG.Text = "";
             var str = this.GetPropertiesString();
             if (String.IsNullOrEmpty(str))
             {
@@ -1184,6 +1235,7 @@ namespace ATFXReader
         /// <param name="e"></param>
         private void btnExport_Click(object sender, EventArgs e)
         {
+            lblErrorMSG.Text = "";
             using (SaveFileDialog dlg = new SaveFileDialog())
             {
                 dlg.Filter = "Text files|*.txt";
@@ -1322,6 +1374,159 @@ namespace ATFXReader
             if(tsRecIndex != null)
             {
                 lbSegmentLost.Text = String.Format("Time Stamp Segment Lost: {0}", Utility.DoesTSHaveLostSegments(tsRecIndex.RecordingProperty.RecordingPath));
+            }
+        }
+        #endregion
+
+        #region DRD BackgroundWorker Progress Updater
+        /// <summary>
+        /// background worker bgWorkerDRDCombine that gets called when it is runned
+        /// Creates progress bar form and starts combining files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bgWorkerDRDCombine_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = sender as BackgroundWorker;
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                pgForm = new ProgressBarForm() { Owner = this };
+                pgForm.Show();
+            });
+
+            drdConverter.ReportProgress += new EventHandler<DRDConverter.ProgressArgs>(DRDConverterCombine_ReportProgress);
+            string[] files = Directory.GetFiles(drdFilesSelectedPath);
+            drdOutputPath = drdConverter.CombineDRDFiles(files, cbOnlyDATX.Checked, cbMergeAllDRD.Checked);
+        }
+
+        /// <summary>
+        /// DRD Combine methods send out ProgressArgs / events for progress reporting
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void DRDConverterCombine_ReportProgress(object sender, DRDConverter.ProgressArgs e)
+        {
+            bgWorkerDRDCombine.ReportProgress(e.Percentage, e.Message);
+        }
+
+        /// <summary>
+        /// Both bgWorkerDRDCombine and bgWorkerDRDConvert rely on this method to inform progress bar form to update values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bgWorkerDRDCombine_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (pgForm.InvokeRequired)
+            {
+                pgForm.Invoke(new Action(() => pgForm.ProgressBarUpdate(e.ProgressPercentage, e.UserState.ToString())));
+            }
+            else
+            {
+                pgForm.ProgressBarUpdate(e.ProgressPercentage, e.UserState.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Runs when bgWorkerDRDCombine finish running its code execution
+        /// It will then run bgWorkerDRDConvert to convert the combined DRD files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void bgWorkerDRDCombine_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            drdConverter.ReportProgress -= new EventHandler<DRDConverter.ProgressArgs>(DRDConverterCombine_ReportProgress);
+            pgForm.ProgressBarUpdate(100, "All ods, datx, ext files combined.");
+            pgForm.Close();
+            if (drdOutputPath != null)
+            {
+                tbFile.Text = "DRD Combine Success";
+                if (!bgWorkerDRDConvert.IsBusy)
+                {
+                    bgWorkerDRDConvert.RunWorkerAsync();
+                }
+            }
+            else
+            {
+                tbFile.Text = "DRD Combine Fail";
+                lblErrorMSG.Text = "Error message: " + drdConverter.ErrorMSG;
+            }
+        }
+
+        /// <summary>
+        /// DRD Convert methods send out a delegate to report progress
+        /// </summary>
+        /// <param name="eStatus"></param>
+        public void ReportStatus(ExportStatus eStatus)
+        {
+            //bgWorkerDRDConvert.ReportProgress(eStatus.Percent, eStatus.ExportInformation); // Only updates once when it should be updating occasionally
+        }
+
+        /// <summary>
+        /// DRD Convert methods send out ProgressArgs / events for progress reporting
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void DRDConverterConvert_ReportProgress(object sender, DRDConverter.ProgressArgs e)
+        {
+            bgWorkerDRDConvert.ReportProgress(e.Percentage, e.Message);
+        }
+
+        /// <summary>
+        /// background worker bgWorkerDRDConvert that gets called when it is runned
+        /// Creates progress bar form and starts converting files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bgWorkerDRDConvert_DoWork(object sender, DoWorkEventArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                pgForm = new ProgressBarForm() { Owner = this };
+                pgForm.Show();
+            });
+            drdConverter.ReportProgress += new EventHandler<DRDConverter.ProgressArgs>(DRDConverterConvert_ReportProgress);
+            status = new ExportStatus();
+            delStatus = this.ReportStatus;
+            DRDConvertSucceed = drdConverter.ConvertDATATFXFile(drdOutputPath, delStatus, status);
+        }
+
+        /// <summary>
+        /// Runs when bgWorkerDRDConvert finish running its code execution
+        /// It will open the first converted recording file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void bgWorkerDRDConvert_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            drdConverter.ReportProgress -= new EventHandler<DRDConverter.ProgressArgs>(DRDConverterConvert_ReportProgress);
+            pgForm.ProgressBarUpdate(100, "All combined files have been converted to ATFX and DAT files.");
+            pgForm.Close();
+            if (DRDConvertSucceed)
+            {
+                string[] splitPath = drdOutputPath[0].Split(new string[] { "\\" }, StringSplitOptions.None);
+                string drdATFXPath = drdOutputPath[0] + "\\" + splitPath[splitPath.Length - 1] + ".atfx";
+                savePath = drdOutputPath[0];
+                currentOpenFile = drdATFXPath;
+                if (drdOutputPath.Count == 1)
+                {
+                    tbFile.Text = "DRD Convert Success. Opening file. " + currentOpenFile;
+                }
+                else
+                {
+                    tbFile.Text = "DRD Convert Success. There are multiple converted files due to missing data files. Opening file. " + currentOpenFile;
+                }
+                if (RecordingManager.Manager.OpenRecording(currentOpenFile, out IRecording rec))
+                {
+                    LoadRecord(rec);
+                    btnCopy.Enabled = true;
+                    btnExport.Enabled = true;
+                }
+            }
+            else
+            {
+                tbFile.Text = "DRD Convert Fail";
+                lblErrorMSG.Text = "Error message: " + drdConverter.ErrorMSG;
             }
         }
         #endregion
