@@ -18,8 +18,6 @@ namespace ATFXReader
         [STAThread]
         static void Main()
         {
-            //MixedDllDispatcher.Start();
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ATFXReaderDemo());

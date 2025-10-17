@@ -6,20 +6,19 @@ All rights reserved
 """
 #---Pythonnet clr import
 from cProfile import label
-import pythonnet
 import clr
 # Change file path here to whereever the DLL files are
-parentPath = "C:\\MyStuff\\DevelopmentalVer\\bin\\AnyCPU\\Debug\\Utility\\CIATFXReader\\"
+parentPath = "C:\\MyStuff\\Github\\CIDataFileReaderAPI\\bin\\"
 
 clr.AddReference(parentPath + "CI.ATFX.Reader.dll")
 clr.AddReference(parentPath + "Common.dll")
+clr.AddReference(parentPath + "PlatformWrapEx.dll")
+clr.AddReference(parentPath + "System.Buffers.dll")
 clr.AddReference('System.Linq')
 clr.AddReference('System.Collections')
 
 import numpy as np
 import matplotlib.pyplot as plt
-import sys 
-import inspect 
 
 #---C# .NET imports & dll imports
 from EDM.Recording import *
@@ -119,22 +118,21 @@ def ShowFrameDataSpectrumEU(signal, spectrum, engiUnit):
 #---Main Code
 # Uncomment any prints and function calls to extract data from file
 print("Running Main Code")
-functions = inspect.getmembers(clr, inspect.isfunction)
-print(functions)
-recordingManager = RecordingManager
+# recordingManager = RecordingManager
 
 # Change file path here to whereever signal or recording files are
-recordingPath = "C:\\Users\\KevinCheng\\Downloads\\gps test example\\"
+recordingPath = "C:\\Users\\Another CI\\Downloads\\signal files\\"
 # Here are multiple strings for different files, change any of them to contain the file name and correctly
 #  reference it in RecordingManager.Manager.OpenRecording
-recordingPathRegular = recordingPath + "SIG0000.atfx"
+recordingPathRegular = recordingPath + "REC0157.atfx"
 recordingPathTS = recordingPath + "{4499520}_REC_{20220419}(1).atfx"
 recordingPathGPS = recordingPath + "REC0041.atfx"
 
 #OpenRecording(string, out IRecording)
 # openRecordSucceed is required for the OpenRecording as it is the returned boolean
 # Make sure to reference the correct file string 
-openRecordSucceed, recording = RecordingManager.Manager.OpenRecording(recordingPathRegular, None) 
+# testrecat = CommonRecording.CreateRecording(recordingPathRegular)
+[openRecordSucceed, recording] = RecordingManager.Manager.OpenRecording(recordingPathRegular, None) 
 
 #---Print Statements
 # Comment or uncomment any print statements below 
@@ -144,8 +142,8 @@ for prop in Utility.GetListOfProperties(recording.RecordingProperty):
     print(prop[0], prop[1])
 
 # Make sure to reference the correct file string 
-print("\nRecording GPS Properties\n")
-ShowGPSInfo(recordingPathTS)
+#print("\nRecording GPS Properties\n")
+#ShowGPSInfo(recordingPathTS)
 
 print("\nSignal 1 Properties\n")
 for prop in Utility.GetListOfProperties(recording.Signals[0].Properties):

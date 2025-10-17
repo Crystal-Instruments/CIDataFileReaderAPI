@@ -31,11 +31,11 @@ namespace ATFXReader
         #region Fields
         DRDConverter drdConverter = new DRDConverter();
         List<string> drdOutputPath;
-        string drdFilesSelectedPath;
+        private string drdFilesSelectedPath;
         ProgressBarForm pgForm;
-        bool DRDConvertSucceed = false;
-        string savePath;
-        string currentOpenFile;
+        private bool DRDConvertSucceed = false;
+        private string currentOpenFile;
+        private EventHandler<DRDConverter.ProgressEventArgs> drdProgressHandler;
 
         /// <summary>
         /// Determine whether the current datagridview for Signals should be displaying
@@ -95,7 +95,6 @@ namespace ATFXReader
             clmLowAlarm.Visible = false;
             clmLowAbort.Visible = false;
 
-            //drdConverter.ReportProgress += new EventHandler<DRDConverter.ProgressArgs>(DRDConverterCombine_ReportProgress);
             bgWorkerDRDCombine.DoWork += new DoWorkEventHandler(bgWorkerDRDCombine_DoWork);
             bgWorkerDRDCombine.ProgressChanged += new ProgressChangedEventHandler(bgWorkerDRDCombine_ProgressChanged);
             bgWorkerDRDCombine.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgWorkerDRDCombine_RunWorkerCompleted);
@@ -142,7 +141,7 @@ namespace ATFXReader
         /// <param name="rec"></param>
         private void ShowRecordings(IRecording rec)
         {
-            if (rec as ODSATFXMLRecording == null)
+            if (!(rec is ODSATFXMLRecording))
             {
                 lbRecordingDataInfo.Items.Clear();
                 lbRecordingDataInfo.Items.Add(rec); // Add the initial IRecording object  
@@ -484,7 +483,7 @@ namespace ATFXReader
                 {
                     //Gets 1 framesize signal frame data I.E 1024 points
                     //Changing the index will display the other frame data
-                    ulong[][] frame_ul = Utility.ReadTimeStampData(signal, frameIndex * (int)signal.FrameSize, (int)(frameIndex + 1) * (int)signal.FrameSize - 1);
+                    ulong[][] frame_ul = Utility.ReadTimeStampData(signal, frameIndex * (int)signal.FrameSize, (frameIndex + 1) * (int)signal.FrameSize - 1);
                     if (frame_ul == null) return;
 
                     var frameSize = frame_ul[0].Length;
@@ -564,7 +563,7 @@ namespace ATFXReader
             }
             catch(Exception e)
             {
-
+                Utility.Log(e);
             }
             finally
             {
@@ -599,7 +598,7 @@ namespace ATFXReader
                 clmLowAbort.Visible = false;
 
                 //Read the TSDAT file and return list<DateTimeNano> and out ulong[] that is the index
-                var utcTSDATpoints = Utility.ReadTimeStampDataUTCFormat(out ulong[] frame_ul, signal, frameIndex * (int)signal.FrameSize, (int)(frameIndex+1) * (int)signal.FrameSize - 1);
+                var utcTSDATpoints = Utility.ReadTimeStampDataUTCFormat(out ulong[] frame_ul, signal, frameIndex * (int)signal.FrameSize, (frameIndex+1) * (int)signal.FrameSize - 1);
 
                 for(int i = 0; i < utcTSDATpoints.Count; i++)
                 {
@@ -619,7 +618,7 @@ namespace ATFXReader
         /// <param name="points"></param>
         /// <param name="pointsUTC"></param>
         /// <param name="formatUTC"></param>
-        private void ShowTSDATPoints(DataGridView grid, ulong[][] points = null, List<DateTimeNano> pointsUTC = null, ulong[] frame_ul = null, bool formatUTC = false)
+        private static void ShowTSDATPoints(DataGridView grid, ulong[][] points = null, List<DateTimeNano> pointsUTC = null, ulong[] frame_ul = null, bool formatUTC = false)
         {
             if(!formatUTC && points == null) return;
             if (formatUTC && pointsUTC == null && frame_ul == null) return;
@@ -838,7 +837,7 @@ namespace ATFXReader
         /// <param name="e"></param>
         private void LbRecording_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lbRecordingDataInfo.SelectedItem is IRecording rec)
+            if (lbRecordingDataInfo.SelectedItem is IRecording)
             {
                 //Keep tracks of the displayed grid for recording if switching from recording to signal and so on
                 switch (recordDataInfo)
@@ -879,7 +878,6 @@ namespace ATFXReader
                     }
 
                     currentOpenFile = tbFile.Text = dlg.FileName;
-                    savePath = Path.GetDirectoryName(dlg.FileName);
                     if (RecordingManager.Manager.OpenRecording(currentOpenFile, out IRecording rec))
                     {
                         LoadRecord(rec);
@@ -1138,7 +1136,7 @@ namespace ATFXReader
             }
             catch(Exception ex)
             {
-
+                Utility.Log(ex);
             }
         }
 
@@ -1184,7 +1182,7 @@ namespace ATFXReader
             } 
             catch(Exception ex)
             {
-
+                Utility.Log(ex);
             }
         }
 
@@ -1387,15 +1385,14 @@ namespace ATFXReader
         /// <param name="e"></param>
         private void bgWorkerDRDCombine_DoWork(object sender, DoWorkEventArgs e)
         {
-            var worker = sender as BackgroundWorker;
-
             this.Invoke((MethodInvoker)delegate
             {
                 pgForm = new ProgressBarForm() { Owner = this };
                 pgForm.Show();
             });
 
-            drdConverter.ReportProgress += new EventHandler<DRDConverter.ProgressArgs>(DRDConverterCombine_ReportProgress);
+            drdProgressHandler = new EventHandler<DRDConverter.ProgressEventArgs>(DRDConverterCombine_ReportProgress);
+            drdConverter.ReportProgress += drdProgressHandler;
             string[] files = Directory.GetFiles(drdFilesSelectedPath);
             drdOutputPath = drdConverter.CombineDRDFiles(files, cbOnlyDATX.Checked, cbMergeAllDRD.Checked);
         }
@@ -1405,7 +1402,7 @@ namespace ATFXReader
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void DRDConverterCombine_ReportProgress(object sender, DRDConverter.ProgressArgs e)
+        protected void DRDConverterCombine_ReportProgress(object sender, DRDConverter.ProgressEventArgs e)
         {
             bgWorkerDRDCombine.ReportProgress(e.Percentage, e.Message);
         }
@@ -1435,7 +1432,7 @@ namespace ATFXReader
         /// <param name="e"></param>
         protected void bgWorkerDRDCombine_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            drdConverter.ReportProgress -= new EventHandler<DRDConverter.ProgressArgs>(DRDConverterCombine_ReportProgress);
+            drdConverter.ReportProgress -= drdProgressHandler;
             pgForm.ProgressBarUpdate(100, "All ods, datx, ext files combined.");
             pgForm.Close();
             if (drdOutputPath != null)
@@ -1467,7 +1464,7 @@ namespace ATFXReader
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void DRDConverterConvert_ReportProgress(object sender, DRDConverter.ProgressArgs e)
+        protected void DRDConverterConvert_ReportProgress(object sender, DRDConverter.ProgressEventArgs e)
         {
             bgWorkerDRDConvert.ReportProgress(e.Percentage, e.Message);
         }
@@ -1485,7 +1482,9 @@ namespace ATFXReader
                 pgForm = new ProgressBarForm() { Owner = this };
                 pgForm.Show();
             });
-            drdConverter.ReportProgress += new EventHandler<DRDConverter.ProgressArgs>(DRDConverterConvert_ReportProgress);
+
+            drdProgressHandler = new EventHandler<DRDConverter.ProgressEventArgs>(DRDConverterConvert_ReportProgress);
+            drdConverter.ReportProgress += drdProgressHandler;
             status = new ExportStatus();
             delStatus = this.ReportStatus;
             DRDConvertSucceed = drdConverter.ConvertDATATFXFile(drdOutputPath, delStatus, status);
@@ -1499,14 +1498,13 @@ namespace ATFXReader
         /// <param name="e"></param>
         protected void bgWorkerDRDConvert_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            drdConverter.ReportProgress -= new EventHandler<DRDConverter.ProgressArgs>(DRDConverterConvert_ReportProgress);
+            drdConverter.ReportProgress -= drdProgressHandler;
             pgForm.ProgressBarUpdate(100, "All combined files have been converted to ATFX and DAT files.");
             pgForm.Close();
             if (DRDConvertSucceed)
             {
                 string[] splitPath = drdOutputPath[0].Split(new string[] { "\\" }, StringSplitOptions.None);
-                string drdATFXPath = drdOutputPath[0] + "\\" + splitPath[splitPath.Length - 1] + ".atfx";
-                savePath = drdOutputPath[0];
+                string drdATFXPath = $"{drdOutputPath[0]}\\{splitPath[splitPath.Length - 1]}.atfx";
                 currentOpenFile = drdATFXPath;
                 if (drdOutputPath.Count == 1)
                 {
